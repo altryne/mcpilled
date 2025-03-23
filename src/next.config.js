@@ -7,10 +7,13 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "**.web3isgoinggreat.com",
+        hostname: "**.mcpilled.com",
         port: "",
       },
     ],
+  },
+  experimental: {
+    disableOptimizedLoading: true,
   },
   async redirects() {
     return [

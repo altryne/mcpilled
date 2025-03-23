@@ -3,7 +3,7 @@ import * as https from "https";
 import sizeOf from "image-size";
 import { getEntry } from "../../db/singleEntry";
 
-const BASE_RESPONSE = 
+const BASE_RESPONSE = {
   type: "rich",
   version: "1.0",
   author_name: "Alex Volkov",
@@ -12,7 +12,7 @@ const BASE_RESPONSE =
   provider_url: "https://mcpilled.com/",
   width: 600,
   height: 600,
-;
+};
 
 const getImageUrl = (image) => {
   if (image && image.src) {

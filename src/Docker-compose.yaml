@@ -3,7 +3,8 @@ services:
   app:
     build:
       context: ./
-    volumes:
-      - .:/app
     ports:
-      - "3000:3000"
+      - "3002:3000"
+    environment:
+      - NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
+      - NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}

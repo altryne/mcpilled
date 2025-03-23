@@ -6,13 +6,8 @@ import Layout from "../components/Layout";
 import { AppProvider } from "../context/AppContext";
 import "../styles/main.sass";
 
-// Debug environment variables
-console.log('[DEBUG] Next.js Runtime Environment:');
-console.log('NEXT_PUBLIC_SUPABASE_URL:', process.env.NEXT_PUBLIC_SUPABASE_URL);
-console.log('NEXT_PUBLIC_SUPABASE_ANON_KEY:', process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
-
 if (typeof window !== "undefined") {
-  ReactGA.initialize("UA-215114522-1");
+  ReactGA.initialize("TODO REPLACE WITH GOOGLA ADS");
   history.scrollRestoration = "manual";
 }
 
@@ -28,43 +23,43 @@ function CustomApp({ Component, pageProps }) {
   return (
     <>
       <Head>
-        <title key="title">Web3 is Going Just Great</title>
+        <title key="title">MCPilled</title>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta
           name="description"
           key="description"
-          content="A timeline recording only some of the many disasters happening in crypto, decentralized finance, NFTs, and other blockchain-based projects."
+          content="MCPilled.com is a collection of curated news about MCP servers, clients, protocol updates and everything else MCP"
         />
-        <meta name="author" content="Molly White" />
+        <meta name="author" content="Alex Volkov" />
         <meta name="msapplication-TileColor" content="#603cba" />
         <meta name="msapplication-config" content="/browserconfig.xml" />
         <meta name="theme-color" content="#5948a4" />
         <meta
           property="og:url"
           key="ogurl"
-          content="https://web3isgoinggreat.com/"
+          content="https://mcpilled.com/"
         />
         <meta
           property="og:title"
           key="ogtitle"
-          content="Web3 is Going Just Great"
+          content="MCPilled"
         />
         <meta property="og:type" key="ogtype" content="website" />
         <meta
           property="og:description"
           key="ogdescription"
-          content="A timeline recording only some of the many disasters happening in crypto, decentralized finance, NFTs, and other blockchain-based projects."
+          content="MCPilled.com is a collection of curated news about MCP servers, clients, protocol updates and everything else MCP"
         />
         <meta
           property="og:image"
           key="ogimage"
-          content="https://primary-cdn.web3isgoinggreat.com/monkey-og.png"
+          content="https://primary-cdn.mcpilled.com/og.png"
         />
         <meta
           property="og:image:alt"
           key="ogimagealt"
-          content="Illustration: A sad-looking Bored Ape Yacht Club NFT monkey looks at a world engulfed in flames. Text next to it says 'Web3 is Going Just Great.'"
+          content="Illustration: A sad-looking Bored Ape Yacht Club NFT monkey looks at a world engulfed in flames. Text next to it says 'MCPilled.'"
         />
         <meta property="og:image:width" key="ogwidth" content="1200" />
         <meta property="og:image:height" key="ogheight" content="630" />
@@ -73,31 +68,31 @@ function CustomApp({ Component, pageProps }) {
           key="twittercard"
           content="summary_large_image"
         />
-        <meta name="twitter:creator" content="@molly0xfff" />
+        <meta name="twitter:creator" content="@altryne" />
         <meta name="twitter:creator:id" content="545445165" />
-        <meta name="twitter:site" content="@web3isgreat" />
+        <meta name="twitter:site" content="@mcpilled" />
         <meta name="twitter:site:id" content="1477342011875381251" />
         <meta
           name="twitter:title"
           key="twittertitle"
-          content="Web3 is Going Just Great"
+          content="MCPilled"
         />
         <meta
           name="twitter:description"
           key="twitterdescription"
-          content="A timeline recording only some of the many disasters happening in crypto, decentralized finance, NFTs, and other blockchain-based projects."
+          content="MCPilled.com is a collection of curated news about MCP servers, clients, protocol updates and everything else MCP"
         />
         <meta
           name="twitter:image"
           key="twitterimage"
-          content="https://primary-cdn.web3isgoinggreat.com/monkey-twitter.png"
+          content="https://primary-cdn.mcpilled.com/monkey-twitter.png"
         />
         <meta
           name="twitter:image:alt"
           key="twitterimagealt"
-          content="Illustration: A sad-looking Bored Ape Yacht Club NFT monkey looks at a world engulfed in flames. Text next to it says 'Web3 is Going Just Great.'"
+          content="MCPilled"
         />
-        <meta name="fediverse:creator" content="@molly0xfff@hachyderm.io" />
+        
       </Head>
       <QueryClientProvider client={queryClient}>
         <AppProvider>
