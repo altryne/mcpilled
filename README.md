@@ -1,10 +1,11 @@
-# [Web3 is Going Just Great](https://web3isgoinggreat.com)
+# MCPilled
 
-A timeline recording only some of the many disasters happening in crypto, decentralized finance, NFTs, and other blockchain-based projects.
+A project dedicated to tracking and cataloging event and important milestones in the rapid development of the Model Context Protocol (MCP).
 
 ![Website screenshot](/screenshot.png)
 
-Suggest an [addition](https://github.com/molly/web3-is-going-great/issues/new?assignees=&labels=&template=new-entry.md&title=%5BNEW%5D) or a [change](https://github.com/molly/web3-is-going-great/issues/new?assignees=&labels=&template=change-to-existing-entry.md&title=%5BEDIT%5D)
+Suggest an [addition](https://github.com/altryne/mcpilled/issues/new?assignees=&labels=&template=new-entry.md&title=%5BNEW%5D) or a [change](https://github.com/altryne/mcpilled/issues/new?assignees=&labels=&template=change-to-existing-entry.md&title=%5BEDIT%5D)
 
-If you want to make a similar-looking timeline without all the bells and whistles, you might like my
-[static timeline generator](https://github.com/molly/static-timeline-generator).
+This project was cloned from [Web3 is Going Great](https://github.com/molly/web3-is-going-great), huge thanks to Molly for open sourcing this project. 
+
+You can follow me on [Twitter](https://twitter.com/altryne) and the project bot at [Twitter](https://twitter.com/mcpilled).
