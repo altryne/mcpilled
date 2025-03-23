@@ -6,243 +6,84 @@ import ExternalLink from "../components/ExternalLink";
 import Footer from "../components/Footer";
 import SimpleHeader from "../components/SimpleHeader";
 
-export default function WhatIsWeb3() {
+export default function WhatIsMCP() {
   useGA();
   return (
     <>
       <CustomHead
-        title="What is web3? – Web3 is Going Just Great"
-        description={
-          'Generally speaking, web3 is an umbrella term to refer to the "future of the Internet", which believers say will be decentralized and based on the blockchain. Proponents tend to tout how data won\'t be controlled by "Big Tech", and how it will be uncensorable and egalitarian. There is, however, no shortage of examples in this timeline of how many "web3" projects are indeed centralized in similar ways to Big Tech, as well as instances where "uncensorable" or "unmodifiable" platforms have removed or modified data.'
-        }
-        urlPath="attribution"
+        title="What is MCP? – MCPilled"
+        description="Model Context Protocol (MCP) is an open standard (created by Anthropic) that lets AI assistants connect to external data sources and tools in a unified way. Think of MCP like a 'USB-C port for AI applications' – instead of custom integrations for every data source, MCP provides one standardized interface."
+        urlPath="what"
       />
-      <SimpleHeader>What is Web3?</SimpleHeader>
+      <SimpleHeader>What is MCP?</SimpleHeader>
       <BackBar />
       <div className="content-wrapper">
         <article className="generic-page what-page longform-text">
           <p>
-            One of the most distinguishing features of "web3" is the sheer level
-            of handwaviness surrounding it. While you can find no end of press
-            releases, crypto evangelists on Twitter, and venture capitalists
-            extolling the virtues of web3, you will have a much harder time
-            finding any definition that's not so full of buzzwords that it
-            becomes meaningless. That's because "web3" is first and foremost a
-            marketing term.
+            Model Context Protocol (MCP) is an open standard created by Anthropic that lets AI assistants connect to external data sources and tools in a unified way. Think of MCP like a "USB-C port for AI applications" – instead of custom integrations for every data source, MCP provides one standardized interface. This means an AI (like Anthropic's Claude) can plug into different systems (files, databases, APIs, etc.) through MCP and securely exchange information.
           </p>
           <p>
-            Generally speaking, "web3" is an umbrella term to refer to the
-            "future of the Internet", which believers say will be decentralized
-            and based on the blockchain. Proponents tend to tout how data won't
-            be controlled by "Big Tech", and how it will be uncensorable and
-            egalitarian. There is, however, no shortage of examples in this
-            timeline of how many "web3" projects are indeed centralized in
-            similar ways to Big Tech, as well as instances where "uncensorable"
-            or "unmodifiable" platforms have removed or modified data.
+            At its core, MCP solves the problem of how AI models access the context they need to be truly helpful. Before MCP, developers had to create custom integrations for each combination of AI model and data source – a time-consuming and inefficient approach. MCP standardizes these connections, making it much easier to build AI applications that can access diverse information sources.
           </p>
           <p>
-            Skeptics of web3 tend to point out that decentralization was a
-            founding tenet of the Internet and is not something that is only (or
-            best) achieved with a blockchain. They also tend to point out the
-            enormous environmental impacts of blockchain technology
-            (particularly{" "}
-            <ExternalLink href="https://www.coindesk.com/learn/what-is-proof-of-work">
-              <span>proof-of-work</span>
-            </ExternalLink>{" "}
-            blockchains, including Bitcoin and until recently Ethereum). They
-            also often mention that an awful lot of web3 projects sound quite a
-            bit like{" "}
-            <ExternalLink href="https://en.wikipedia.org/wiki/Ponzi_scheme">
-              <span>Ponzi</span>
-            </ExternalLink>{" "}
-            or{" "}
-            <ExternalLink href="https://en.wikipedia.org/wiki/Pyramid_scheme">
-              <span>pyramid schemes</span>
-            </ExternalLink>
-            , and question the lack of regulation, oversight, and taxation that
-            makes fraud, tax evasion, and other criminal behavior particularly
-            rampant in the space.
-          </p>
-          <p>
-            Ideas described as web3 tend to incorporate some of the following:
+            MCP works on a simple client–server model for AI context sharing. Here's a high-level view of how it functions:
           </p>
           <ul>
-            <li>various cryptocurrencies</li>
-            <li>decentralized autonomous organizations (DAOs)</li>
-            <li>decentralized finance (DeFi)</li>
-            <li>non-fungible tokens (NFTs)</li>
-            <li>smart contracts</li>
+            <li><strong>MCP Servers:</strong> These are lightweight programs or connectors that interface with a specific data source or service (for example, a Google Drive MCP server, a Slack MCP server, a GitHub repo server, etc.). Each server exposes certain capabilities (files, search queries, database access, etc.) through the MCP standard.</li>
+            <li><strong>MCP Client/Host:</strong> This is the AI-powered application (such as Claude Desktop, an IDE with an AI assistant, or any LLM app) that wants to use external data. The host connects to one or more MCP servers using the protocol. Essentially, the AI app "speaks" MCP to ask servers for information or to perform actions.</li>
           </ul>
           <p>
-            This is intended to be a brief overview of the concept rather than a
-            long explainer or opinion piece, so here are some resources where
-            you can learn more if you are looking for those kinds of things:
+            When connected, the MCP servers advertise what they can do (their available "tools" and data) in a standardized format. The AI client can discover these and invoke them. For example, a Claude AI client could connect to an MCP server for GitHub and then fetch code from a repo or get a file listing via simple MCP commands. All of this happens through a unified protocol interface, so the AI doesn't need custom code for each new tool – it just uses MCP.
           </p>
-          <h3>Explainers</h3>
+          <p>
+            Key benefits of MCP include:
+          </p>
+          <ul>
+            <li><strong>Standardization:</strong> One protocol for connecting AI to any data source</li>
+            <li><strong>Ecosystem of Integrations:</strong> Growing library of reusable connectors for common services</li>
+            <li><strong>Flexibility:</strong> Swap AI models without losing data connections</li>
+            <li><strong>Better AI Responses:</strong> AI can access up-to-date, relevant information</li>
+            <li><strong>Security and Control:</strong> Keep data access controlled within your infrastructure</li>
+          </ul>
+          <p>
+            This is intended to be a brief overview of MCP. Here are some resources where you can learn more:
+          </p>
+          <h3>Official Documentation</h3>
           <ul>
             <li>
-              <ExternalLink href="https://en.wikipedia.org/wiki/Web3">
-                <span>Web3</span>
+              <ExternalLink href="https://docs.anthropic.com/claude/docs/model-context-protocol">
+                <span>Anthropic MCP Documentation</span>
               </ExternalLink>
-              <span> on Wikipedia</span>
+            </li>
+            <li>
+              <ExternalLink href="https://github.com/anthropics/anthropic-cookbook/tree/main/mcp">
+                <span>Anthropic MCP Cookbook</span>
+              </ExternalLink>
             </li>
           </ul>
-          <h3>Opinion</h3>
-          <div className="indent">
-            <h4>Web3</h4>
-            <ul>
-              <li>
-                <ExternalLink href="https://www.youtube.com/watch?v=YQ_xWvX1n9g">
-                  <span>"Line Goes Up – The Problem With NFTs"</span>
-                </ExternalLink>
-                <span> by Dan Olson (video)</span>
-              </li>
-              <li>
-                <ExternalLink href="https://www.youtube.com/watch?v=u-sNSjS8cq0">
-                  <span>"Web3.0: A Libertarian Dystopia"</span>
-                </ExternalLink>{" "}
-                by münecat (video).
-              </li>
-              <li>
-                <ExternalLink href="https://www.oreilly.com/radar/why-its-too-early-to-get-excited-about-web3/">
-                  <span>"Why it's too early to get excited about Web3"</span>
-                </ExternalLink>
-                <span> by </span>
-                <ExternalLink href="https://en.wikipedia.org/wiki/Tim_O%27Reilly">
-                  Tim O'Reilly
-                </ExternalLink>
-              </li>
-              <li>
-                <ExternalLink href="https://society.robinsloan.com/archive/notes-on-web3/">
-                  "Notes on Web3"
-                </ExternalLink>
-                <span> by </span>
-                <ExternalLink href="https://en.wikipedia.org/wiki/Robin_Sloan">
-                  Robin Sloan
-                </ExternalLink>
-              </li>
-              <li>
-                <ExternalLink href="https://tante.cc/2021/12/17/the-third-web/">
-                  "The Third Web"
-                </ExternalLink>
-                <span> by tante</span>
-              </li>
-              <li>
-                <ExternalLink href="https://www.usenix.org/publications/loginonline/web3-fraud">
-                  "The Web3 Fraud"
-                </ExternalLink>
-                <span> by Nicholas Weaver</span>
-              </li>
-              <li>
-                <ExternalLink href="https://the-crypto-syllabus.com/web3-a-map-in-search-of-territory/">
-                  "Web3: A Map in Search of Territory"
-                </ExternalLink>
-                <span> by </span>
-                <ExternalLink href="https://en.wikipedia.org/wiki/Evgeny_Morozov">
-                  Evgeny Morozov
-                </ExternalLink>
-              </li>
-              <li>
-                <ExternalLink href="https://moxie.org/2022/01/07/web3-first-impressions.html">
-                  "My first impressions of web3"
-                </ExternalLink>
-                <span> by </span>
-                <ExternalLink href="https://en.wikipedia.org/wiki/Moxie_Marlinspike">
-                  Moxie Marlinspike
-                </ExternalLink>
-              </li>
-            </ul>
-            <h4>Cryptocurrencies and blockchains more broadly</h4>
-            <ul>
-              <li>
-                <i>
-                  <ExternalLink href="https://davidgerard.co.uk/blockchain/book/">
-                    Attack of the 50 Foot Blockchain
-                  </ExternalLink>
-                </i>
-                <span> by David Gerard (book)</span>
-              </li>
-              <li>
-                <ExternalLink href="https://blog.dshr.org/2022/02/ee380-talk.html">
-                  Slides and transcript
-                </ExternalLink>
-                <span> or </span>
-                <ExternalLink href="https://www.youtube.com/watch?v=twrduL8aNGE">
-                  video
-                </ExternalLink>
-                <span>
-                  {" "}
-                  of{" "}
-                  <ExternalLink href="https://en.wikipedia.org/wiki/David_S._H._Rosenthal">
-                    David S. H. Rosenthal's
-                  </ExternalLink>{" "}
-                  talk to Stanford EE Computer Systems students
-                </span>
-              </li>
-              <li>
-                <ExternalLink href="https://www.youtube.com/watch?v=xCHab0dNnj4">
-                  Blockchains and Cryptocurrencies: Burn It With Fire
-                </ExternalLink>
-                <span> lecture by Nicholas Weaver (video)</span>
-              </li>
-              <li>
-                <ExternalLink href="https://onezero.medium.com/the-inevitability-of-trusted-third-parties-a51cbcffc4e2">
-                  "The Inevitability of Trusted Third Parties"
-                </ExternalLink>
-                <span> by </span>
-                <ExternalLink href="https://en.wikipedia.org/wiki/Cory_Doctorow">
-                  Cory Doctorow
-                </ExternalLink>
-              </li>
-            </ul>
-          </div>
-          <h3>Other collections of resources</h3>
+          <h3>Tutorials and Guides</h3>
           <ul>
             <li>
-              <ExternalLink href="https://blog.mollywhite.net/blockchain/">
-                My own longer-form writing
+              <ExternalLink href="https://github.com/anthropics/anthropic-cookbook/blob/main/mcp/quickstart.ipynb">
+                <span>MCP Quickstart Guide</span>
               </ExternalLink>
             </li>
             <li>
-              <ExternalLink href="https://www.mollywhite.net/speaking/">
-                My lectures
+              <ExternalLink href="https://github.com/anthropics/anthropic-cookbook/tree/main/mcp/example_servers">
+                <span>Example MCP Servers</span>
+              </ExternalLink>
+            </li>
+          </ul>
+          <h3>Community Resources</h3>
+          <ul>
+            <li>
+              <ExternalLink href="https://discord.gg/mcpilled">
+                <span>MCP Discord Community</span>
               </ExternalLink>
             </li>
             <li>
-              <ExternalLink href="https://davidgerard.co.uk/blockchain/">
-                "Attack of the 50 Foot Blockchain"
-              </ExternalLink>
-              <span> blog by David Gerard</span>
-            </li>
-            <li>
-              <ExternalLink href="https://cryptocriticscorner.com/">
-                <i>Crypto Critics' Corner</i>
-              </ExternalLink>
-              <span> podcast</span>
-            </li>
-            <li>
-              <ExternalLink href="https://rekt.news/">Rekt.news</ExternalLink>
-            </li>
-            <li>
-              <span>A list of some really thoughtful </span>
-              <ExternalLink href="https://twitter.com/i/lists/1473337241594388495">
-                Web3 and crypto skeptics
-              </ExternalLink>
-              <span> on Twitter</span>
-            </li>
-            <li>
-              <span>My </span>
-              <ExternalLink href="https://www.mollywhite.net/reading/blockchain">
-                blockchain reading list
-              </ExternalLink>
-            </li>
-            <li>
-              <ExternalLink href="https://web3.lifeitself.us/guide">
-                Making Sense of Crypto and Web3 Guide
-              </ExternalLink>
-              <span> and its </span>
-              <ExternalLink href="https://www.zotero.org/groups/4600269/web3/library">
-                enormous reading list
+              <ExternalLink href="https://www.reddit.com/r/ModelContextProtocol/">
+                <span>r/ModelContextProtocol Subreddit</span>
               </ExternalLink>
             </li>
           </ul>

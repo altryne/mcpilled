@@ -1,73 +1,69 @@
 import PropTypes from "prop-types";
 
 const FILTERS = {
+  // Event types / themes
   theme: {
-    artTheft: "Art theft",
-    badIdea: "Bad idea",
-    bug: "Bug",
-    bummer: "Bummer",
-    collapse: "Collapse",
-    contagion: "Contagion",
-    environment: "Environment",
-    goodNews: "Good news",
-    hack: "Hack or scam",
-    hmm: "Hmm",
-    law: "Law",
-    layoffs: "Layoffs",
-    reporting: "Reporting",
-    rugPull: "Rug pull",
-    shady: "Shady business",
-    washTrade: "Wash trade",
-    yikes: "Yikes",
+    update: "Protocol Update",
+    milestone: "Protocol Milestone",
+    adoption: "Adoption",
+    warning: "Warning",
+    goodToKnow: "Good to Know",
+    industryNews: "Industry News",
+    mcp: "MCP Server",
+    mcpClient: "MCP Client",
   },
-  tech: {
-    gaming: "blockchain gaming",
-    dao: "DAO",
-    dapps: "dApps",
-    defi: "DeFi",
-    lending: "lending",
-    metaverse: "metaverse",
-    nft: "NFT",
-    stablecoins: "stablecoins",
+  
+  // Tool categories
+  category: {
+    productivity: "Productivity",
+    webSearch: "Web Search",
+    official: "Official",
+    database: "Database",
+    financial: "Financial Data",
+    llms: "LLMs",
+    commandExecution: "Command Execution",
+    location: "Weather & Location",
+    memory: "Knowledge & Memory",
+    browser: "Browser Automation",
+    os: "OS Automation",
+    communication: "Communication",
+    devTools: "Developer Tools",
+    entertainment: "Entertainment & Media",
+    calendar: "Calendar Management",
+    security: "Security",
+    monitoring: "Monitoring",
+    virtualization: "Virtualization",
+    cloudStorage: "Cloud Storage",
+    cloudPlatform: "Cloud Platforms",
   },
-  blockchain: {
-    avalanche: "Avalanche",
-    bitcoin: "Bitcoin",
-    bsc: "BNB Chain",
-    celo: "Celo",
-    cosmos: "Cosmos",
-    ethereum: "Ethereum",
-    fantom: "Fantom",
-    flow: "Flow",
-    litecoin: "Litecoin",
-    monero: "Monero",
-    polygon: "Polygon",
-    ripple: "XRP Ledger",
-    solana: "Solana",
-    terra: "Terra",
-    tron: "Tron",
-    tezos: "Tezos",
-    wax: "WAX",
+  
+  // Server types
+  server: {
+    officialServers: "Official Servers",
+    researchData: "Research And Data",
+    aiChatbot: "AI Chatbot",
+    fileSystems: "File Systems",
+    customerData: "Customer Data Platforms",
   },
 };
 
-export const EMPTY_FILTERS_STATE = {
+export const EMPTY_FILTERS = {
   theme: [],
-  tech: [],
-  blockchain: [],
+  category: [],
+  server: [],
   sort: "Descending",
 };
 
-export const FILTER_CATEGORIES = ["theme", "tech", "blockchain"];
+export const FILTER_CATEGORIES = ["theme", "category", "server"];
 
 const ThemePropType = PropTypes.oneOf(Object.keys(FILTERS.theme));
-const TechPropType = PropTypes.oneOf(Object.keys(FILTERS.tech));
-const BlockchainPropType = PropTypes.oneOf(Object.keys(FILTERS.blockchain));
+const CategoryPropType = PropTypes.oneOf(Object.keys(FILTERS.category));
+const ServerPropType = PropTypes.oneOf(Object.keys(FILTERS.server));
 
 export const FiltersPropType = PropTypes.shape({
   theme: PropTypes.arrayOf(ThemePropType).isRequired,
-  tech: PropTypes.arrayOf(TechPropType).isRequired,
-  blockchain: PropTypes.arrayOf(BlockchainPropType).isRequired,
+  category: PropTypes.arrayOf(CategoryPropType).isRequired,
+  server: PropTypes.arrayOf(ServerPropType).isRequired,
   sort: PropTypes.oneOf(["Descending", "Ascending"]).isRequired,
 });
 

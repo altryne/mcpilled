@@ -1,225 +1,102 @@
-import PropTypes from "prop-types";
-import React, { useMemo } from "react";
+import React from "react";
 import useGA from "../hooks/useGA";
-
-import { add, isPast, startOfMonth, sub } from "date-fns";
-import filter from "lodash.filter";
-import find from "lodash.find";
-import { formatDollarString } from "../js/utilities";
-
-import { getMoney } from "../db/money";
 
 import BackBar from "../components/BackBar";
 import CustomHead from "../components/CustomHead";
-import DonationsBar from "../components/DonationsBar";
 import ExternalLink from "../components/ExternalLink";
 import Footer from "../components/Footer";
 import SimpleHeader from "../components/SimpleHeader";
 
-export async function getServerSideProps() {
-  return {
-    props: {
-      money: await getMoney(),
-    },
-  };
-}
-
-const humanizeMonthAndYear = (date) =>
-  date.toLocaleDateString("en-us", {
-    year: "numeric",
-    month: "long",
-    timeZone: "utc",
-  });
-
-export default function Contribute({ money }) {
+export default function Contribute() {
   useGA();
-
-  const totalExpenses = useMemo(
-    () =>
-      money.expenses.reduce((acc, { value }) => acc + value, 0) +
-      money.nextMonthEstimate,
-    [money]
-  );
-
-  const nextMonth = useMemo(() => {
-    let lastMonthOfExpenses = startOfMonth(new Date());
-    for (let i = 0; i < 5; i++) {
-      // Could use a while loop, but if something gets screwy in the DB it'll kick off an infinite loop.
-      // If I haven't updated in multiple months, something's wrong here, no need to loop forever.
-      const latestExpense = find(money.expenses, {
-        date: humanizeMonthAndYear(lastMonthOfExpenses),
-        label: "Cloud services",
-      });
-      if (latestExpense) {
-        break;
-      } else {
-        lastMonthOfExpenses = sub(lastMonthOfExpenses, { months: 1 });
-      }
-    }
-
-    const nextMonth = add(lastMonthOfExpenses, { months: 1 });
-    return humanizeMonthAndYear(nextMonth);
-  }, [money]);
-
-  const tableRows = useMemo(() => {
-    let rows = [];
-    let month = new Date("2021-12-01T12:00:00");
-    while (isPast(month)) {
-      const monthStr = humanizeMonthAndYear(month);
-      const expenses = filter(money.expenses, { date: monthStr });
-      let credits = filter(money.credits, { date: monthStr });
-      if (credits.length) {
-        credits = credits.map((c) => ({
-          ...c,
-          label: `${c.label}*`,
-          value: -c.value,
-        }));
-        rows = rows.concat(credits);
-      }
-      if (expenses.length) {
-        rows = rows.concat(expenses);
-      }
-      month = add(month, { months: 1 });
-    }
-    return rows;
-  }, [money]);
 
   return (
     <>
       <CustomHead
-        title="Contribute"
-        description="Contribute content to Web3 is Going Just Great, and see how to donate."
+        title="Contribute to MCPilled"
+        description="Contribute content, code, or ideas to MCPilled.com, the community hub for Model Context Protocol (MCP)."
         urlPath="contribute"
       />
       <SimpleHeader>Contribute</SimpleHeader>
       <BackBar />
       <div className="content-wrapper">
         <article className="generic-page longform-text">
-          <h2>Suggest an addition or change</h2>
+          <h2>Contribute to MCPilled</h2>
           <p>
-            The best and quickest way to suggest an addition or change to this
-            timeline is via Github Issue.{" "}
-            <ExternalLink href="https://github.com/molly/web3-is-going-great/issues/new?assignees=&labels=bug%2Ctriage&template=new-entry.yml&title=%5BNEW%5D%3A+">
-              <span>Suggest a new entry</span>
-            </ExternalLink>
-            , or{" "}
-            <ExternalLink href="https://github.com/molly/web3-is-going-great/issues/new?assignees=&labels=&template=change-to-existing-entry.md&title=%5BEDIT%5D">
-              suggest a change to an existing entry.
-            </ExternalLink>
+            MCPilled.com is a community-driven site, and we welcome contributions from anyone interested in the Model Context Protocol (MCP). There are several ways you can help improve this resource:
           </p>
+
+          <h3>Suggest Content or Improvements</h3>
           <p>
-            If Github's not for you, you can also DM or tweet at me on my{" "}
-            <ExternalLink href="https://twitter.com/molly0xFFF">
-              @molly0xFFF
+            The best way to suggest additions or changes to this site is via GitHub Issues.{" "}
+            <ExternalLink href="https://github.com/atryne/mcpilled/issues/new">
+              <span>Open a new issue</span>
             </ExternalLink>{" "}
-            account (I often miss tweets to the{" "}
-            <ExternalLink href="https://twitter.com/web3isgreat">
-              @web3isgreat
+            with your suggestion, or{" "}
+            <ExternalLink href="https://github.com/atryne/mcpilled/pulls">
+              submit a pull request
             </ExternalLink>{" "}
-            account!) For the Mastodon users, you can toot at{" "}
-            <ExternalLink href="https://hachyderm.io/@molly0xfff">
-              @molly0xfff@hachyderm.io
-            </ExternalLink>
-            . Make sure to send me a link to reporting about any event you're
-            hoping to see on the timeline.
+            directly to the repository.
           </p>
-          <h2>Donate</h2>
+
+          <h3>Share Your MCP Projects</h3>
           <p>
-            If you would like to support my work, which includes this website, I
-            have a newsletter called{" "}
-            <ExternalLink href="https://citationneeded.news/">
-              <i>Citation Needed</i>
+            Have you built something interesting with MCP? We'd love to feature it! Share your projects, tutorials, or use cases by{" "}
+            <ExternalLink href="https://github.com/atryne/mcpilled/issues/new">
+              <span>opening an issue</span>
             </ExternalLink>{" "}
-            where you can sign up for a pay-what-you-want subscription . You can
-            also make one-off donations via{" "}
-            <a href="https://account.venmo.com/u/MollyWhite">Venmo</a>,{" "}
-            <a href="https://cash.app/$molly0xfff">Cash App</a>, or{" "}
-            <a href="https://www.paypal.com/donate/?business=3RM66P9NEQNFA&no_recurring=0&currency_code=USD">
-              Paypal
-            </a>
-            . If you wish to make a one-off donation specifically towards the
-            upkeep of this website, please note that in the message so that I
-            can earmark the funds for this project. There is a transparency
-            report below where I record the cost of keeping this site online, as
-            well as those earmarked funds.
+            with the details of your project and how it uses MCP.
           </p>
-          <h3>Expenses</h3>
-          <table className="expenses centered">
-            <thead>
-              <tr>
-                <th>Description</th>
-                <th>Date</th>
-                <th>Amount (USD)</th>
-              </tr>
-            </thead>
-            <tbody>
-              {tableRows.map((row) => (
-                <tr key={`${row.label}-${row.date}`}>
-                  <td>{row.label}</td>
-                  <td>{row.date}</td>
-                  <td className="number">{formatDollarString(row.value)}</td>
-                </tr>
-              ))}
-              <tr className="estimate">
-                <td>
-                  <i>Cloud services estimate</i>
-                </td>
-                <td>{nextMonth}</td>
-                <td className="number">
-                  {formatDollarString(money.nextMonthEstimate)}
-                </td>
-              </tr>
-              <tr>
-                <td colSpan={2}>
-                  Total expenses to date (including next month's estimate)
-                </td>
-                <td className="number">{formatDollarString(totalExpenses)}</td>
-              </tr>
-              <tr>
-                <td colSpan={2}>Total donations to date</td>
-                <td className="number">
-                  {formatDollarString(money.donations)}
-                </td>
-              </tr>
-              <tr>
-                <td colSpan={2}>Remaining donations</td>
-                <td className="number">
-                  {formatDollarString(
-                    Math.max(
-                      money.donations - (totalExpenses - money.usedCredits),
-                      0
-                    )
-                  )}
-                </td>
-              </tr>
-              <tr>
-                <td colSpan={2}>
-                  Remaining expenses (after donations and credits)
-                </td>
-                <td className="number">
-                  {formatDollarString(
-                    Math.max(
-                      totalExpenses - money.usedCredits - money.donations,
-                      0
-                    )
-                  )}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <DonationsBar
-            donations={money.donations}
-            totalExpenses={totalExpenses}
-            remainingCredits={money.remainingCredits}
-            usedCredits={money.usedCredits}
-          />
+
+          <h3>Tune in to ThursdAI live shows</h3>
           <p>
-            I manually update the table above, so don't be startled if it takes
-            a day or so for your donation to show up here!
+            Connect with the ThursdAI community where we cover MCP updates weekly
           </p>
-          <p className="help-text">
-            * Credits refer to free credits for Google Cloud Platform, provided
-            by Google.
+          <ul>
+            <li>
+              <ExternalLink href="https://thursdai.news">
+                <span>Subscribe to ThursdAI</span>
+              </ExternalLink>
+            </li>
+            <li>
+              <ExternalLink href="https://twitter.com/mcpilled">
+                <span>Follow @mcpilled on Twitter</span>
+              </ExternalLink>
+            </li>
+            
+          </ul>
+
+          <h3>Contribute Code</h3>
+          <p>
+            MCPilled.com is open source, and we welcome code contributions. Here are some ways you can help:
+          </p>
+          <ul>
+            <li>Fix bugs or improve the website</li>
+            <li>Improve documentation</li>
+          </ul>
+          <p>
+            Check out the{" "}
+            <ExternalLink href="https://github.com/anthropics/anthropic-cookbook/tree/main/mcp">
+              <span>MCP section of the Anthropic Cookbook</span>
+            </ExternalLink>{" "}
+            to get started.
+          </p>
+
+          <h3>Spread the Word</h3>
+          <p>
+            Help others discover MCP by sharing MCPilled.com with your network. The more people who know about and use MCP, the stronger the ecosystem becomes!
+          </p>
+
+          <h3>Contact</h3>
+          <p>
+            If you have questions, suggestions, or just want to chat about MCP, you can reach out to Alex Volkov (site creator) on{" "}
+            <ExternalLink href="https://twitter.com/altryne">
+              <span>Twitter</span>
+            </ExternalLink>{" "}
+            or via the{" "}
+            <ExternalLink href="https://discord.gg/mcpilled">
+              <span>MCPilled Discord</span>
+            </ExternalLink>.
           </p>
         </article>
       </div>
@@ -227,26 +104,3 @@ export default function Contribute({ money }) {
     </>
   );
 }
-
-Contribute.propTypes = {
-  money: PropTypes.shape({
-    donations: PropTypes.number.isRequired,
-    expenses: PropTypes.arrayOf(
-      PropTypes.shape({
-        label: PropTypes.string.isRequired,
-        date: PropTypes.string,
-        value: PropTypes.number.isRequired,
-      })
-    ).isRequired,
-    credits: PropTypes.arrayOf(
-      PropTypes.shape({
-        label: PropTypes.string.isRequired,
-        date: PropTypes.string,
-        value: PropTypes.number.isRequired,
-      })
-    ).isRequired,
-    nextMonthEstimate: PropTypes.number.isRequired,
-    remainingCredits: PropTypes.number.isRequired,
-    usedCredits: PropTypes.number.isRequired,
-  }),
-};

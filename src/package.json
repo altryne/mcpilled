@@ -2,9 +2,9 @@
   "name": "web3-is-going-great",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "NODE_OPTIONS='--trace-warnings' next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "NODE_OPTIONS='--trace-warnings' next start",
     "lint": "next lint"
   },
   "dependencies": {

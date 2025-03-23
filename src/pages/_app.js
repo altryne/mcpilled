@@ -6,6 +6,11 @@ import Layout from "../components/Layout";
 import { AppProvider } from "../context/AppContext";
 import "../styles/main.sass";
 
+// Debug environment variables
+console.log('[DEBUG] Next.js Runtime Environment:');
+console.log('NEXT_PUBLIC_SUPABASE_URL:', process.env.NEXT_PUBLIC_SUPABASE_URL);
+console.log('NEXT_PUBLIC_SUPABASE_ANON_KEY:', process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+
 if (typeof window !== "undefined") {
   ReactGA.initialize("UA-215114522-1");
   history.scrollRestoration = "manual";

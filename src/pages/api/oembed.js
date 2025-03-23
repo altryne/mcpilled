@@ -3,16 +3,16 @@ import * as https from "https";
 import sizeOf from "image-size";
 import { getEntry } from "../../db/singleEntry";
 
-const BASE_RESPONSE = {
+const BASE_RESPONSE = 
   type: "rich",
   version: "1.0",
-  author_name: "Molly White",
-  author_url: "https://www.mollywhite.net/",
-  provider_name: "Web3 is Going Just Great",
-  provider_url: "https://www.web3isgoinggreat.com/",
+  author_name: "Alex Volkov",
+  author_url: "https://thursdai.news/",
+  provider_name: "MCPilled",
+  provider_url: "https://mcpilled.com/",
   width: 600,
   height: 600,
-};
+;
 
 const getImageUrl = (image) => {
   if (image && image.src) {

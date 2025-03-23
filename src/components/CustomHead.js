@@ -10,14 +10,14 @@ export default function CustomEntryHead({ title, description, urlPath }) {
         <meta
           property="og:url"
           key="ogurl"
-          content={`https://web3isgoinggreat.com/${urlPath}`}
+          content={`https://mcpilled.com/${urlPath}`}
         />
       )}
       <meta property="og:title" key="ogtitle" content={title} />
       <meta
         property="og:site_name"
         key="ogsitename"
-        content="Web3 is Going Just Great"
+        content="MCPilled"
       />
       <meta property="og:type" key="ogtype" content="article" />
       <meta

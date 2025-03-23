@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Link from "next/link";
-import { signIn } from "../../js/admin";
+import { signIn } from "../../js/admin-supabase";
 
 export default function Admin() {
   const [password, setPassword] = useState("");
@@ -18,8 +18,8 @@ export default function Admin() {
 
   return <>
     <span>
-      This page is for Molly's use only. If you've found yourself here and
-      you're not Molly, you can go{" "}
+      This page is for Alex use only. If you've found yourself here and
+      you're not Alex, you can go{" "}
       <Link href="/contribute">
         here
       </Link>{" "}

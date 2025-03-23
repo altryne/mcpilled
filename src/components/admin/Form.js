@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
-
-import { signOut, upload } from "../../js/admin";
+import { FILTER_CATEGORIES } from "../../constants/filters";
+import { signOut, upload } from "../../js/admin-supabase";
 import { generateReadableId } from "../../js/utilities";
 
 import { EMPTY_ENTRY, isValidEntry } from "../../js/entry";
@@ -312,12 +312,8 @@ export default function Form() {
         <EntryTextArea entry={entry} onBodyChange={createFieldSetter("body")} />
         <div className="row stretch">
           <FilterSelector filter="theme" entry={entry} setEntry={setEntry} />
-          <FilterSelector filter="tech" entry={entry} setEntry={setEntry} />
-          <FilterSelector
-            filter="blockchain"
-            entry={entry}
-            setEntry={setEntry}
-          />
+          <FilterSelector filter="category" entry={entry} setEntry={setEntry} />
+          <FilterSelector filter="server" entry={entry} setEntry={setEntry} />
         </div>
         <div className="row">
           <div className="group">

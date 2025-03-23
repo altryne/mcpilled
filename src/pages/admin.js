@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { auth } from "../js/admin";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged } from "../js/admin-supabase";
 
 import SimpleHeader from "../components/SimpleHeader";
 import BackBar from "../components/BackBar";
@@ -12,15 +11,21 @@ import Form from "../components/admin/Form";
 
 export default function Admin() {
   const [isLoggedIn, setIsLoggedIn] = useState(null);
+  
   useEffect(() => {
-    return onAuthStateChanged(auth, (user) => {
+    const { data: { subscription } } = onAuthStateChanged((user) => {
       if (!user) {
         setIsLoggedIn(false);
       } else {
         setIsLoggedIn(true);
       }
     });
-  });
+
+    // Cleanup subscription when component unmounts
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []); // Empty dependency array since we only want this to run once
 
   return (
     <>

@@ -24,8 +24,8 @@ const Document = () => {
         <link
           rel="alternate"
           type="application/atom+xml"
-          title="Subscribe to this timeline"
-          href="https://web3isgoinggreat.com/feed.xml"
+          title="Subscribe to MCPilled updates"
+          href="https://mcpilled.com/feed.xml"
         />
       </Head>
       <body>

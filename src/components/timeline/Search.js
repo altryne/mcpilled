@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 
@@ -7,7 +7,7 @@ import { useDebounce } from "use-debounce";
 import { useCombobox } from "downshift";
 
 import { search as searchEntries } from "../../db/searchEntries";
-import { humanizeDate, truncateToNearestWord } from "../../js/utilities";
+import { humanizeDate, truncateToNearestWord, sentenceCase } from "../../js/utilities";
 import FILTERS from "../../constants/filters";
 
 const MINIMUM_SEARCH_LENGTH = 3;
@@ -29,10 +29,16 @@ function stateReducer(state, actionAndChanges) {
   }
 }
 
-export default function Search({ filters, setSelectedEntryFromSearch }) {
+export default function Search({
+  filters,
+  setFilters,
+  searchText,
+  setSearchText,
+  setSelectedEntryFromSearch,
+}) {
   const router = useRouter();
 
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState(searchText || "");
   const [items, setItems] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
   const [debouncedSearchTerm] = useDebounce(searchTerm, 500);
@@ -50,6 +56,7 @@ export default function Search({ filters, setSelectedEntryFromSearch }) {
     itemToString: (item) => (item ? item.title : null),
     onInputValueChange: ({ inputValue }) => {
       setSearchTerm(inputValue);
+      setSearchText(inputValue);
     },
     onSelectedItemChange: ({ selectedItem }) => {
       setSelectedEntryFromSearch(selectedItem.readableId);
@@ -144,6 +151,21 @@ export default function Search({ filters, setSelectedEntryFromSearch }) {
     return <li className="search-help">No results</li>;
   };
 
+  const allFilters = useMemo(() => {
+    const filtersObj = {};
+    Object.entries(FILTERS).forEach(([category, values]) => {
+      Object.entries(values).forEach(([key, value]) => {
+        filtersObj[key] = {
+          value: key,
+          text: sentenceCase(value),
+          category,
+          selected: filters[category].includes(key),
+        };
+      });
+    });
+    return filtersObj;
+  }, [filters]);
+
   return (
     <div className="search-and-results">
       <div className="search-container">
@@ -172,12 +194,13 @@ Search.propTypes = {
   filters: PropTypes.shape({
     theme: PropTypes.arrayOf(PropTypes.oneOf(Object.keys(FILTERS.theme)))
       .isRequired,
-    tech: PropTypes.arrayOf(PropTypes.oneOf(Object.keys(FILTERS.tech)))
+    category: PropTypes.arrayOf(PropTypes.oneOf(Object.keys(FILTERS.category)))
       .isRequired,
-    blockchain: PropTypes.arrayOf(
-      PropTypes.oneOf(Object.keys(FILTERS.blockchain))
-    ).isRequired,
-    sort: PropTypes.string.isRequired,
+    server: PropTypes.arrayOf(PropTypes.oneOf(Object.keys(FILTERS.server)))
+      .isRequired,
   }).isRequired,
+  setFilters: PropTypes.func.isRequired,
+  searchText: PropTypes.string.isRequired,
+  setSearchText: PropTypes.func.isRequired,
   setSelectedEntryFromSearch: PropTypes.func.isRequired,
 };

@@ -1,15 +1,12 @@
 import PropTypes from "prop-types";
+import { EMPTY_FILTERS } from "../constants/filters";
 
 export const EMPTY_ENTRY = {
   body: "",
   date: "",
   faicon: "",
   icon: "",
-  filters: {
-    blockchain: [],
-    tech: [],
-    theme: [],
-  },
+  filters: { ...EMPTY_FILTERS, sort: "Descending" },
   links: [{ linkText: "", href: "", extraText: "" }],
   title: "",
   shortTitle: "",
@@ -39,8 +36,9 @@ export const EntryPropType = PropTypes.shape({
   readableId: PropTypes.string.isRequired,
   filters: PropTypes.shape({
     theme: PropTypes.arrayOf(PropTypes.string).isRequired,
-    tech: PropTypes.arrayOf(PropTypes.string),
-    blockchain: PropTypes.arrayOf(PropTypes.string),
+    category: PropTypes.arrayOf(PropTypes.string).isRequired,
+    server: PropTypes.arrayOf(PropTypes.string).isRequired,
+    sort: PropTypes.oneOf(["Descending", "Ascending"]).isRequired,
   }),
   color: PropTypes.string,
   collection: PropTypes.array,
@@ -52,25 +50,15 @@ export const EntryPropType = PropTypes.shape({
   image: PropTypes.shape({
     src: PropTypes.string.isRequired,
     alt: PropTypes.string.isRequired,
-    link: PropTypes.string,
     caption: PropTypes.string,
-    class: PropTypes.string,
+    isLogo: PropTypes.bool,
   }),
   body: PropTypes.string.isRequired,
-  links: PropTypes.arrayOf(LinkFieldPropType),
+  links: PropTypes.arrayOf(LinkFieldPropType).isRequired,
   scamAmountDetails: PropTypes.shape({
     total: PropTypes.number.isRequired,
     hasScamAmount: PropTypes.bool.isRequired,
     preRecoveryAmount: PropTypes.number.isRequired,
-    lowerBound: PropTypes.number,
-    upperBound: PropTypes.number,
-    recovered: PropTypes.number,
-    textOverride: PropTypes.string,
-  }).isRequired,
-  socialPostIds: PropTypes.shape({
-    twitter: PropTypes.string,
-    mastodon: PropTypes.string,
-    bluesky: PropTypes.string,
   }),
 });
 

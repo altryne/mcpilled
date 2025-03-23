@@ -4,7 +4,7 @@ import { WindowWidthPropType } from "../../hooks/useWindowWidth";
 
 import FILTERS, {
   FILTER_CATEGORIES,
-  EMPTY_FILTERS_STATE,
+  EMPTY_FILTERS,
 } from "../../constants/filters";
 import { sentenceCase } from "../../js/utilities";
 
@@ -50,13 +50,13 @@ export default function Filters({
         }}
         onChange={(values) => {
           setFilters({
-            ...EMPTY_FILTERS_STATE,
-            [filter]: values.map((v) => v.value),
+            ...filters,
+            [filter]: values ? values.map((v) => v.value) : [],
           });
         }}
-        value={filters[filter].map((v) => ({
-          value: v,
-          label: FILTERS[filter][v],
+        value={filters[filter].map((value) => ({
+          value,
+          label: FILTERS[filter][value],
         }))}
       />
     );
@@ -82,6 +82,8 @@ export default function Filters({
     </button>
   );
 
+  const [searchText, setSearchText] = useState("");
+
   return (
     <div className="timeline-filter-wrapper">
       <section className="timeline-filter">
@@ -95,26 +97,47 @@ export default function Filters({
           <h2>{renderLabel()}</h2>
           <i className="fas fa-caret-down"></i>
         </button>
+
         <div
           id="filters-expandable"
           className={`filters-expandable ${
-            isFilterGroupExpanded && "expanded"
+            isFilterGroupExpanded ? "expanded" : ""
           }`}
         >
           <div className="filters-group">
-            {Object.keys(FILTERS).map(renderFilterGroup)}
+            {FILTER_CATEGORIES.map(renderFilterGroup)}
             <Checkbox
               checked={starred}
-              toggleCheckbox={() => setStarred(!starred)}
+              toggleCheckbox={(e) => setStarred(e.target.checked)}
               id="starred-filter"
               className="inline-checkbox"
             >
-              Starred
+              Show only starred
             </Checkbox>
+            <button
+              onClick={() => {
+                setFilters(EMPTY_FILTERS);
+                setStarred(false);
+                setSearchText("");
+              }}
+              disabled={
+                !starred &&
+                !searchText &&
+                FILTER_CATEGORIES.every(
+                  (filter) => filters[filter].length === 0
+                )
+              }
+            >
+              Clear all
+            </button>
           </div>
+
           <div className="search-group">
             <Search
               filters={filters}
+              setFilters={setFilters}
+              searchText={searchText}
+              setSearchText={setSearchText}
               setSelectedEntryFromSearch={setSelectedEntryFromSearch}
             />
             {renderSortButton()}
@@ -129,16 +152,15 @@ Filters.propTypes = {
   filters: PropTypes.shape({
     theme: PropTypes.arrayOf(PropTypes.oneOf(Object.keys(FILTERS.theme)))
       .isRequired,
-    tech: PropTypes.arrayOf(PropTypes.oneOf(Object.keys(FILTERS.tech)))
+    category: PropTypes.arrayOf(PropTypes.oneOf(Object.keys(FILTERS.category)))
       .isRequired,
-    blockchain: PropTypes.arrayOf(
-      PropTypes.oneOf(Object.keys(FILTERS.blockchain))
-    ).isRequired,
-    sort: PropTypes.string.isRequired,
+    server: PropTypes.arrayOf(PropTypes.oneOf(Object.keys(FILTERS.server)))
+      .isRequired,
+    sort: PropTypes.oneOf(["Descending", "Ascending"]).isRequired,
   }).isRequired,
   starred: PropTypes.bool.isRequired,
   setStarred: PropTypes.func.isRequired,
   setFilters: PropTypes.func.isRequired,
   setSelectedEntryFromSearch: PropTypes.func.isRequired,
-  windowWidth: WindowWidthPropType,
+  windowWidth: WindowWidthPropType.isRequired,
 };

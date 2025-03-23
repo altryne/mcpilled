@@ -13,8 +13,8 @@ export default function WhatIsWeb3() {
   return (
     <>
       <CustomHead
-        title="About – Web3 is Going Just Great"
-        description="About the Web3 is Going Just Great project"
+        title="About – MCPilled"
+        description="About the MCPilled.com project"
         urlPath="about"
       />
       <SimpleHeader>About</SimpleHeader>
@@ -23,90 +23,48 @@ export default function WhatIsWeb3() {
         <article className="generic-page longform-text">
           <h3>What is this?</h3>
           <p>
-            Web3 is Going Just Great is a project to track some examples of how
-            things in the blockchains/crypto/web3 technology space aren't
-            actually going as well as its proponents might like you to believe.
-            The timeline tracks events in cryptocurrency and blockchain-based
-            technologies, dating back to the beginning of 2021.
+            MCPilled.com is a community-driven site to help you learn about Anthropic's Model Context Protocol (MCP). We've compiled FAQs, a timeline of key events, top resources, and tips on automating posts for our @mcpilled social accounts. Dive in and get MCP‑pilled!
           </p>
           <p>
-            This is a personal project of mine, and reflects my own opinions. If
-            you are looking for an unbiased descriptor of web3 and related
-            technologies, there are short ones in the{" "}
-            <Link href="/glossary">Glossary</Link>, but that is not the goal of
-            this site. I would recommend Wikipedia for that (and if the pages
-            there are lacking, I would strongly encourage you to{" "}
-            <ExternalLink href="https://en.wikipedia.org/wiki/Help:Introduction">
-              contribute to them
-            </ExternalLink>
-            !) If you would like to see a version of this website that takes a
-            different approach or covers a different topic, this is all
-            open-source, so please feel free to{" "}
-            <ExternalLink href="https://github.com/molly/web3-is-going-great">
-              fork the code and make your own
-            </ExternalLink>
-            !
+            This website serves as a friendly introduction and hub for all things MCP. Our goal is to welcome you into the MCP community, whether you're a developer or just curious, and help you stay up-to-date with this emerging standard.
           </p>
           <h3>Who am I?</h3>
           <p>
-            I'm Molly White, a software engineer, writer, and critical
-            researcher of cryptocurrency and the tech industry more broadly. You
-            can learn more about me on{" "}
-            <ExternalLink href="https://www.mollywhite.net/">
-              my website
+            I'm Alex Volkov, an AI Evangelist with{" "}
+            <ExternalLink href="https://wandb.ai/">
+              Weights & Biases
             </ExternalLink>{" "}
-            or find me on{" "}
-            <ExternalLink href="https://twitter.com/molly0xFFF">
-              Twitter
+            and an MCP enthusiast. You can find me on{" "}
+            <ExternalLink href="https://twitter.com/altryne">
+              Twitter/X
+            </ExternalLink>{" "}
+            where I regularly share updates about MCP and other AI developments.
+          </p>
+          <p>
+            This website is a community-driven project created by volunteers who are passionate about MCP. It is not an official Anthropic site, but rather an initiative by members of the MCP community aiming to spread knowledge and encourage participation.
+          </p>
+          <h3>Contributing</h3>
+          <p>
+            If you'd like to contribute content or updates to MCPilled.com, you're welcome – this is a community effort! The code for this site is open source and available on{" "}
+            <ExternalLink href="https://github.com/altryne/mcpilled">
+              GitHub
+            </ExternalLink>
+            . Feel free to submit pull requests or open issues with suggestions.
+          </p>
+          <p>
+            You can also contribute by joining the conversation on our{" "}
+            <ExternalLink href="https://discord.gg/mcpilled">
+              Discord server
+            </ExternalLink>{" "}
+            or by following and engaging with our{" "}
+            <ExternalLink href="https://twitter.com/mcpilled">
+              Twitter/X account
             </ExternalLink>
             .
           </p>
+          <h3>Privacy</h3>
           <p>
-            If you are interested, I also have a{" "}
-            <ExternalLink href="https://blog.mollywhite.net/blockchain/">
-              collection
-            </ExternalLink>{" "}
-            of longer-form, less sarcastic thoughts on blockchains and web3, and
-            I also write a newsletter called{" "}
-            <ExternalLink href="http://citationneeded.news/">
-              <i>Citation Needed</i>
-            </ExternalLink>
-            .
-          </p>
-          <h3>Privacy and money</h3>
-          <p>
-            I have a{" "}
-            <ExternalLink href="https://www.mollywhite.net/crypto-disclosures">
-              disclosure statement
-            </ExternalLink>
-            . The TL;DR is that I hold no substantial amount of cryptocurrencies
-            and no NFTs, and am also not trying to make money off of crypto
-            markets doing poorly by shorting the market, etc. I do have a{" "}
-            <ExternalLink href="http://citationneeded.news/">
-              newsletter
-            </ExternalLink>{" "}
-            where some people financially support my work, and I also accept{" "}
-            <Link href="/contribute">donations</Link> for this website.
-          </p>
-          <p>
-            The site does use Google Analytics, mostly for my own curiosity. All
-            IP data is anonymized, no advertising features are enabled, and data
-            retention is set to the minimum value (14 months). If you would
-            rather not be tracked by Google Analytics, there are great
-            extensions like{" "}
-            <a href="https://en.wikipedia.org/wiki/Privacy_Badger">
-              Privacy Badger
-            </a>
-            , or you can disable JavaScript for this site.
-          </p>
-          <h3>Infrastructure</h3>
-          <p>
-            The code for <i>Web3 is Going Just Great</i> is open source and on{" "}
-            <a href="https://github.com/molly/web3-is-going-great">Github</a>.
-            The site is hosted with Google Cloud. Additional cloud services
-            (caching, etc.) are generously provided by Fastly through their{" "}
-            <a href="https://www.fastly.com/fast-forward">Fast Forward</a>{" "}
-            program.
+            The site uses Google Analytics, primarily for understanding user engagement. All IP data is anonymized, no advertising features are enabled, and data retention is set to the minimum value (14 months).
           </p>
         </article>
       </div>

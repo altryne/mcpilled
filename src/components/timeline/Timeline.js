@@ -142,7 +142,8 @@ export default function Timeline({
   };
 
   const renderNoJs = () => {
-    if (!isBrowserRendering) {
+    if (!isBrowserRendering && data && data.pages && data.pages.length > 0 && 
+        data.pages[0].entries && data.pages[0].entries.length > 0) {
       const cursor = data.pages[0].entries[data.pages[0].entries.length - 1].id;
       return (
         <p id="noscript">
@@ -150,7 +151,7 @@ export default function Timeline({
           <Link href={`/web1?cursor=${cursor}&direction=next`}>
             Web&nbsp;1.0
           </Link>{" "}
-          version of the site to see more entries.
+          version.
         </p>
       );
     }

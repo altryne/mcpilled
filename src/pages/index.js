@@ -5,38 +5,31 @@ import { EntryPropType } from "../js/entry";
 import { useRouter } from "next/router";
 import { useInfiniteQuery } from "react-query";
 import useGA from "../hooks/useGA";
+import useWindowWidth from "../hooks/useWindowWidth";
 
 import { copy } from "../js/utilities";
-import {
-  EMPTY_FILTERS_STATE,
-  FiltersPropType,
-  FILTER_CATEGORIES,
-} from "../constants/filters";
+import { EMPTY_FILTERS, FILTER_CATEGORIES } from "../constants/filters";
 
-import { getEntries } from "../db/entries";
-import { getGlossaryEntries } from "../db/glossary";
-import { getMetadata } from "../db/metadata";
+import { getEntries } from "../db/entries-supabase";
+import { getGlossaryEntries } from "../db/glossary-supabase";
+import { getMetadata } from "../db/metadata-supabase";
 
 import Timeline from "../components/timeline/Timeline";
 
 export async function getServerSideProps(context) {
   let props = {
-    initialFilters: copy(EMPTY_FILTERS_STATE),
+    initialFilters: copy(EMPTY_FILTERS),
     initialStarred: false,
   };
+
   if (context.query) {
     if (context.query.collection) {
-      // Filters, starred, and collections are mutually exclusive
       props.initialFilters.collection = context.query.collection;
     } else if (context.query.starred && context.query.starred === "true") {
       props.initialStarred = true;
     } else if (FILTER_CATEGORIES.some((filter) => filter in context.query)) {
       let hasFilterCategory = false;
       FILTER_CATEGORIES.forEach((filter) => {
-        // Only one filter category can be active at a time, so if someone tries
-        // to manually tack some on they'll still be ignored, but the filters
-        // will display incorrectly. This hasFilterCategory check trims off
-        // any more filters than are supported to faithfully represent the DB logic.
         if (!hasFilterCategory && filter in context.query) {
           props.initialFilters[filter] = context.query[filter].split(",");
           hasFilterCategory = true;
@@ -49,23 +42,28 @@ export async function getServerSideProps(context) {
     }
   }
 
-  const promises = [
+  const [firstEntries, glossaryEntries, metadata] = await Promise.all([
     getEntries({
       ...props.initialFilters,
-      ...(props.initialStartAtId && { startAtId: props.initialStartAtId }),
       starred: props.initialStarred,
+      limit: 10,
     }),
     getGlossaryEntries(),
     getMetadata(),
-  ];
+  ]);
 
-  const [firstEntries, glossary, metadata] = await Promise.all(promises);
+  // Convert arrays to objects with null values
+  const glossary = {};
+  const allCollections = {};
+
   return {
     props: {
-      ...props,
       firstEntries,
+      initialStartAtId: props.initialStartAtId || null,
+      initialFilters: props.initialFilters,
+      initialStarred: props.initialStarred,
       glossary,
-      allCollections: metadata.collections,
+      allCollections,
     },
   };
 }
@@ -80,6 +78,7 @@ export default function IndexPage({
 }) {
   useGA();
   const router = useRouter();
+  const windowWidth = useWindowWidth();
 
   const [collection, setCollectionState] = useState(initialFilters.collection);
   const [filters, setFilterState] = useState(initialFilters);
@@ -95,7 +94,7 @@ export default function IndexPage({
         if (startOfQueryParams > -1) {
           // Filters
           const params = new URLSearchParams(url.slice(startOfQueryParams));
-          const restoredFilters = copy(EMPTY_FILTERS_STATE);
+          const restoredFilters = copy(EMPTY_FILTERS);
           for (let category of FILTER_CATEGORIES) {
             if (params.has(category)) {
               restoredFilters[category] = params.get(category).split(",");
@@ -156,7 +155,7 @@ export default function IndexPage({
       router.push({ query: {} }, null, { shallow: true });
     }
     setSelectedEntryFromSearch(null);
-    setFilterState({ ...EMPTY_FILTERS_STATE, sort: filters.sort });
+    setFilterState({ ...EMPTY_FILTERS, sort: filters.sort });
     setCollectionState(null);
     setStarredState(starred);
   };
@@ -171,7 +170,7 @@ export default function IndexPage({
       router.push({ query: {} }, null, { shallow: true });
     }
     setSelectedEntryFromSearch(null);
-    setFilterState(EMPTY_FILTERS_STATE);
+    setFilterState(EMPTY_FILTERS);
     setStarredState(false);
     setCollectionState(coll);
   };
@@ -182,7 +181,7 @@ export default function IndexPage({
     }
     router.push({ query: {} }, null, { shallow: true });
     setSelectedEntryFromSearch(null);
-    setFilterState(EMPTY_FILTERS_STATE);
+    setFilterState(EMPTY_FILTERS);
     setStartAtId(null);
     setCollectionState(null);
   };
@@ -254,6 +253,7 @@ export default function IndexPage({
       setStarred={setStarred}
       setSelectedEntryFromSearch={setSelectedEntryFromSearch}
       clearAllFiltering={clearAllFiltering}
+      windowWidth={windowWidth}
     />
   );
 }
@@ -264,7 +264,7 @@ IndexPage.propTypes = {
     hasNext: PropTypes.bool.isRequired,
     hasPrev: PropTypes.bool,
   }).isRequired,
-  initialFilters: FiltersPropType.isRequired,
+  initialFilters: PropTypes.object.isRequired,
   initialCollection: PropTypes.string,
   initialStarred: PropTypes.bool.isRequired,
   initialStartAtId: PropTypes.string,
