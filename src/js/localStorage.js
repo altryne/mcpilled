@@ -3,10 +3,8 @@ export const LOCALSTORAGE_KEYS = {
   theme: "theme",
   useSansSerif: "use-sans-serif",
 
-  // Grift counter
+  // Animations
   flamesAnimationPaused: "flames-animation-paused",
-  griftCounterExpanded: "grift-counter-expanded",
-  griftCounterCountUp: "grift-counter-count-up",
 };
 
 export const getLocalStorage = (key, returnValueIfNotSet = null) => {

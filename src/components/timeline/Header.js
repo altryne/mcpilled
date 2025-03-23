@@ -61,13 +61,13 @@ const Header = forwardRef(function Header(
   };
 
   const renderImage = () => {
-    const imageSize = windowWidth === "xl" ? 500 : 300;
     return renderMainPageLink(
       // eslint-disable-next-line @next/next/no-img-element
       <img
         className="logo"
-        src={`${STORAGE_URL}/monkey_${imageSize}.webp`}
-        alt="Illustration: A sad-looking Bored Ape Yacht Club NFT monkey looks at a world engulfed in flames."
+        src={`https://cln.sh/0ZcJDPXv+`}
+        alt="MCPilled.com logo - Model Context Protocol"
+        style={{ maxWidth: "100%", height: "auto", objectFit: "contain" }}
       />,
       "logo-image-link"
     );
@@ -77,14 +77,14 @@ const Header = forwardRef(function Header(
     <>
       <p>
         Created by{" "}
-        <ExternalLink href="https://www.mollywhite.net/">
-          Molly White
+        <ExternalLink href="https://twitter.com/altryne">
+          Alex Volkov
         </ExternalLink>
-        . Subscribe to{" "}
-        <ExternalLink href="https://citationneeded.news/">
-          her newsletter
-        </ExternalLink>{" "}
-        for weekly recaps.
+        , AI Evangelist with{" "}
+        <ExternalLink href="https://wandb.ai/">
+          Weights & Biases
+        </ExternalLink>
+        .
       </p>
       <ul className="social-links">
         {SOCIAL.map((link) => (
@@ -120,11 +120,10 @@ const Header = forwardRef(function Header(
           {!(windowWidth === "sm" || windowWidth === "xs") && renderImage()}
           <div className="header-content">
             <h1 ref={componentRef} tabIndex={-1}>
-              {renderMainPageLink(<span>Web3 is Going Just Great</span>)}
+              {renderMainPageLink(<span>MCPilled.com</span>)}
             </h1>
             <p className="subtitle">
-              ...and is definitely not an enormous grift that's pouring lighter
-              fluid on our already smoldering planet.
+              Take the MCPill and find out what's happening in the world of the Model Context Protocol (MCP) 
             </p>
             {windowWidth === "sm" || windowWidth === "xs"
               ? renderMobileImageAndLinks()

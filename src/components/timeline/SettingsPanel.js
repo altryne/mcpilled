@@ -6,10 +6,6 @@ export default function SettingsPanel({
   setIsSettingsPanelShown,
   isAnimationPaused,
   toggleFlamesAnimation,
-  isGriftCounterExpanded,
-  toggleShowGriftCounter,
-  isGriftCounterCountingUp,
-  toggleIsGriftCounterCountingUp,
 }) {
   const { theme, setTheme, useSansSerif, toggleUseSansSerif } = useAppState();
 
@@ -75,15 +71,8 @@ export default function SettingsPanel({
           </div>
         </div>
       </div>
-      <h3>Grift counter</h3>
+      <h3>Animations</h3>
       <div className="settings-section">
-        <SettingsCheckbox
-          id="show-grift-counter"
-          checked={isGriftCounterExpanded}
-          toggleCheckbox={toggleShowGriftCounter}
-        >
-          Show grift counter
-        </SettingsCheckbox>
         <SettingsCheckbox
           id="animate-flames"
           checked={!isAnimationPaused}
@@ -91,36 +80,6 @@ export default function SettingsPanel({
         >
           Animate flames
         </SettingsCheckbox>
-        <div className="radio-group">
-          <h4>Grift counter direction</h4>
-          <div className="input-group">
-            <input
-              type="radio"
-              id="count-up"
-              name="grift-direction"
-              value="count-up"
-              checked={isGriftCounterCountingUp}
-              onChange={toggleIsGriftCounterCountingUp}
-            />
-            <label htmlFor="count-up">Start at $0 and add as you scroll</label>
-          </div>
-          <div className="input-group">
-            <input
-              type="radio"
-              id="count-down"
-              name="grift-direction"
-              value="count-down"
-              checked={!isGriftCounterCountingUp}
-              onChange={toggleIsGriftCounterCountingUp}
-            />
-            <label htmlFor="count-down">
-              Start at total amount scammed and subtract as you scroll
-            </label>
-          </div>
-        </div>
-        <a className="help-text" href="/faq#grift-counter" target="_blank">
-          What's the grift counter?
-        </a>
       </div>
     </div>
   );
@@ -128,13 +87,6 @@ export default function SettingsPanel({
 
 SettingsPanel.propTypes = {
   setIsSettingsPanelShown: PropTypes.func.isRequired,
-
   isAnimationPaused: PropTypes.bool, // Can be null
   toggleFlamesAnimation: PropTypes.func.isRequired,
-
-  isGriftCounterExpanded: PropTypes.bool.isRequired,
-  toggleShowGriftCounter: PropTypes.func.isRequired,
-
-  isGriftCounterCountingUp: PropTypes.bool.isRequired,
-  toggleIsGriftCounterCountingUp: PropTypes.func.isRequired,
 };

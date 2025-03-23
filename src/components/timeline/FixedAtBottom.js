@@ -11,15 +11,11 @@ import {
 import { fallback } from "../../js/utilities";
 
 import ScrollToTop from "./ScrollToTop";
-import GriftCounter from "./GriftCounter";
 import SettingsPanel from "./SettingsPanel";
 
 export default function FixedAtBottom({
   headerInView,
-  shouldRenderGriftCounter,
   scrollToTop,
-  runningGriftTotal,
-  griftTotal,
 }) {
   const isBrowserRendering = useIsBrowserRendering();
   const prefersReducedMotion = useMemo(() => {
@@ -31,12 +27,6 @@ export default function FixedAtBottom({
   }, [isBrowserRendering]);
 
   const [isSettingsPanelShown, setIsSettingsPanelShown] = useState(false);
-  const [isGriftCounterExpanded, setIsGriftCounterExpanded] = useState(
-    getLocalStorage(LOCALSTORAGE_KEYS.griftCounterExpanded, true)
-  );
-  const [isGriftCounterCountingUp, setIsGriftCounterCountingUp] = useState(
-    getLocalStorage(LOCALSTORAGE_KEYS.griftCounterCountUp, false)
-  );
   const [isAnimationPaused, setIsAnimationPaused] = useState(
     fallback(
       getLocalStorage(LOCALSTORAGE_KEYS.flamesAnimationPaused, null),
@@ -69,24 +59,7 @@ export default function FixedAtBottom({
     () => makeToggleFunction(isSettingsPanelShown, setIsSettingsPanelShown),
     [makeToggleFunction, isSettingsPanelShown]
   );
-  const toggleShowGriftCounter = useMemo(
-    () =>
-      makeToggleFunction(
-        isGriftCounterExpanded,
-        setIsGriftCounterExpanded,
-        LOCALSTORAGE_KEYS.griftCounterExpanded
-      ),
-    [makeToggleFunction, isGriftCounterExpanded]
-  );
-  const toggleIsGriftCounterCountingUp = useMemo(
-    () =>
-      makeToggleFunction(
-        isGriftCounterCountingUp,
-        setIsGriftCounterCountingUp,
-        LOCALSTORAGE_KEYS.griftCounterCountUp
-      ),
-    [makeToggleFunction, isGriftCounterCountingUp]
-  );
+  
   const toggleFlamesAnimation = useMemo(
     () =>
       makeToggleFunction(
@@ -125,19 +98,6 @@ export default function FixedAtBottom({
             setIsSettingsPanelShown={setIsSettingsPanelShown}
             isAnimationPaused={isAnimationPaused}
             toggleFlamesAnimation={toggleFlamesAnimation}
-            isGriftCounterExpanded={isGriftCounterExpanded}
-            toggleShowGriftCounter={toggleShowGriftCounter}
-            isGriftCounterCountingUp={isGriftCounterCountingUp}
-            toggleIsGriftCounterCountingUp={toggleIsGriftCounterCountingUp}
-          />
-        )}
-        {shouldRenderGriftCounter && isGriftCounterExpanded && (
-          <GriftCounter
-            onClick={toggleShowSettingsPanel}
-            runningGriftTotal={runningGriftTotal}
-            griftTotal={griftTotal}
-            isGriftCounterCountingUp={isGriftCounterCountingUp}
-            isAnimationPaused={isAnimationPaused}
           />
         )}
       </div>
@@ -147,8 +107,5 @@ export default function FixedAtBottom({
 
 FixedAtBottom.propTypes = {
   headerInView: PropTypes.bool.isRequired,
-  shouldRenderGriftCounter: PropTypes.bool.isRequired,
   scrollToTop: PropTypes.func.isRequired,
-  runningGriftTotal: PropTypes.number.isRequired,
-  griftTotal: PropTypes.number.isRequired,
 };

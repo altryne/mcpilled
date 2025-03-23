@@ -30,9 +30,6 @@ export default function Entry({
   className,
   windowWidth,
   glossary,
-  runningScamTotal,
-  currentRunningScamTotal,
-  setCurrentRunningScamTotal,
   collection,
   allCollections,
   setCollection,
@@ -370,21 +367,7 @@ export default function Entry({
   };
 
   const renderTagsWithSentinel = () => {
-    if (!setCurrentRunningScamTotal) {
-      return renderTags();
-    }
-    return (
-      <InView
-        threshold={1}
-        onChange={(inView) => {
-          if (inView && runningScamTotal !== currentRunningScamTotal) {
-            setCurrentRunningScamTotal(runningScamTotal);
-          }
-        }}
-      >
-        {renderTags()}
-      </InView>
-    );
+    return renderTags();
   };
 
   const renderCollectionList = (collections) => {
@@ -474,18 +457,10 @@ Entry.propTypes = {
   className: PropTypes.string,
   entry: EntryPropType,
   windowWidth: WindowWidthPropType,
-  runningScamTotal: PropTypes.number,
-  currentRunningScamTotal: PropTypes.number,
-  setCurrentRunningScamTotal: PropTypes.func,
-  shouldScrollToElement: PropTypes.bool,
   collection: PropTypes.string,
-
   glossary: PropTypes.object, // Not defined in web1
   allCollections: PropTypes.object, // Not defined in web1
   setCollection: PropTypes.func, // Not defined in web1
   setStarred: PropTypes.func, // Not defined in web1
-};
-
-Entry.defaultProps = {
-  runningScamTotal: 0,
+  shouldScrollToElement: PropTypes.bool,
 };

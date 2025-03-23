@@ -1,29 +1,19 @@
 export const SOCIAL = [
   {
     label: "Twitter",
-    href: "https://twitter.com/web3isgreat",
+    href: "https://twitter.com/mcpilled",
     icon: "fab fa-twitter",
   },
   {
-    label: "Mastodon",
-    href: "https://indieweb.social/@web3isgreat",
-    icon: "fab fa-mastodon",
+    label: "GitHub",
+    href: "https://github.com/anthropics/anthropic-cookbook/tree/main/mcp",
+    icon: "fab fa-github",
   },
   {
-    label: "Bluesky",
-    href: "https://bsky.app/profile/web3isgoinggreat.com",
-    icon: "fab fa-bluesky",
-  },
-  {
-    label: "Instagram",
-    href: "https://www.instagram.com/web3isgoinggreat/",
-    icon: "fab fa-instagram",
-  },
-  {
-    label: "Threads",
-    href: "https://www.threads.net/@web3isgoinggreat",
-    icon: "fab fa-threads",
-  },
+    label: "Discord",
+    href: "https://discord.gg/mcpilled",
+    icon: "fab fa-discord",
+  }
 ];
 
 export const NAVIGATION = [
@@ -37,10 +27,19 @@ export const NAVIGATION = [
         path: "/about",
       },
       {
-        label: "What is web3?",
+        label: "MCP Overview",
+        short: "Overview",
+        path: "/overview",
+      },
+      {
+        label: "What is MCP?",
         path: "/what",
       },
       { label: "FAQ", path: "/faq" },
+      {
+        label: "Glossary",
+        path: "/glossary",
+      },
       {
         label: "License and attribution",
         short: "License",
@@ -60,23 +59,15 @@ export const NAVIGATION = [
     ],
   },
   {
-    label: "Leaderboard",
-    path: "/charts/top",
-  },
-  {
-    label: "Glossary",
-    path: "/glossary",
+    label: "Resources",
+    path: "/resources",
   },
   {
     label: "Contribute",
     path: "/contribute",
   },
   {
-    label: "Newsletter",
-    href: "https://citationneeded.news/",
-  },
-  {
-    label: "Store",
-    href: "https://store.mollywhite.net/",
+    label: "Documentation",
+    href: "https://docs.anthropic.com/claude/docs/model-context-protocol",
   },
 ];

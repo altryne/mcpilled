@@ -65,7 +65,6 @@ export async function getServerSideProps(context) {
       ...props,
       firstEntries,
       glossary,
-      griftTotal: metadata.griftTotal,
       allCollections: metadata.collections,
     },
   };
@@ -77,7 +76,6 @@ export default function IndexPage({
   initialFilters,
   initialStarred,
   glossary,
-  griftTotal,
   allCollections,
 }) {
   useGA();
@@ -248,7 +246,6 @@ export default function IndexPage({
       allCollections={allCollections}
       filters={filters}
       glossary={glossary}
-      griftTotal={griftTotal}
       selectedEntryFromSearch={selectedEntryFromSearch}
       startAtId={startAtId}
       setCollection={setCollection}
@@ -272,6 +269,5 @@ IndexPage.propTypes = {
   initialStarred: PropTypes.bool.isRequired,
   initialStartAtId: PropTypes.string,
   glossary: PropTypes.object.isRequired,
-  griftTotal: PropTypes.number.isRequired,
   allCollections: PropTypes.object.isRequired,
 };

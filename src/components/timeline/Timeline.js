@@ -30,7 +30,6 @@ export default function Timeline({
   filters,
   starred,
   glossary,
-  griftTotal,
   allCollections,
   selectedEntryFromSearch,
   startAtId,
@@ -42,8 +41,6 @@ export default function Timeline({
 }) {
   const isBrowserRendering = useIsBrowserRendering();
   const windowWidth = useWindowWidth();
-
-  const [currentRunningScamTotal, setCurrentRunningScamTotal] = useState(0);
 
   const [headerInViewRef, headerInView] = useInView();
   const headerFocusRef = useRef();
@@ -74,14 +71,14 @@ export default function Timeline({
     [data, isSuccess]
   );
 
-  const shouldRenderFilterBarAndGriftCounter = useMemo(
-    () => !collection && (!startAtId || !hasPreviousEntries),
-    [collection, hasPreviousEntries, startAtId]
-  );
-
   const shouldRenderGoToTop = useMemo(() => {
     return (!!startAtId && hasPreviousEntries) || !!selectedEntryFromSearch;
   }, [startAtId, hasPreviousEntries, selectedEntryFromSearch]);
+
+  const shouldRenderFilterBar = useMemo(
+    () => !collection && (!startAtId || !hasPreviousEntries),
+    [collection, hasPreviousEntries, startAtId]
+  );
 
   const collectionDescription = useMemo(
     () =>
@@ -161,7 +158,6 @@ export default function Timeline({
   };
 
   const renderEntries = () => {
-    let runningScamTotal = 0;
     return (
       <>
         {shouldRenderGoToTop && renderGoToTop()}
@@ -186,27 +182,12 @@ export default function Timeline({
                     className += " short";
                   }
 
-                  if (entry.scamAmountDetails.total) {
-                    runningScamTotal += entry.scamAmountDetails.total;
-                  }
-
                   const entryElement = (
                     <Entry
                       key={entry.id}
                       entry={entry}
                       className={className}
                       windowWidth={windowWidth}
-                      runningScamTotal={runningScamTotal}
-                      currentRunningScamTotal={currentRunningScamTotal}
-                      setCurrentRunningScamTotal={setCurrentRunningScamTotal}
-                      shouldScrollToElement={
-                        entry.id === startAtId || entry.readableId == startAtId
-                      }
-                      glossary={glossary}
-                      collection={collection}
-                      allCollections={allCollections}
-                      setCollection={setCollection}
-                      setStarred={setStarred}
                     />
                   );
 
@@ -259,7 +240,7 @@ export default function Timeline({
           titleText={collectionDescription}
         />
       )}
-      {isBrowserRendering && shouldRenderFilterBarAndGriftCounter && (
+      {isBrowserRendering && shouldRenderFilterBar && (
         <Filters
           filters={filters}
           setFilters={setFilters}
@@ -278,10 +259,7 @@ export default function Timeline({
       </div>
       <FixedAtBottom
         headerInView={headerInView}
-        shouldRenderGriftCounter={shouldRenderFilterBarAndGriftCounter}
         scrollToTop={scrollToTop}
-        runningGriftTotal={currentRunningScamTotal}
-        griftTotal={griftTotal}
       />
     </>
   );
@@ -301,7 +279,6 @@ Timeline.propTypes = {
   collection: PropTypes.string,
   starred: PropTypes.bool.isRequired,
   glossary: PropTypes.object.isRequired,
-  griftTotal: PropTypes.number.isRequired,
   allCollections: PropTypes.object.isRequired,
   selectedEntryFromSearch: PropTypes.string,
   startAtId: PropTypes.string,
