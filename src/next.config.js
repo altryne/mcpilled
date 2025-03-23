@@ -11,10 +11,15 @@ const nextConfig = {
         port: "",
       },
     ],
+    unoptimized: true, // This helps with Netlify deployment
   },
+  // Disable static optimization for problematic pages
   experimental: {
+    // This disables automatic static optimization for all pages
     disableOptimizedLoading: true,
   },
+  // This helps with Netlify deployment
+  output: 'standalone',
   async redirects() {
     return [
       {
