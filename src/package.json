@@ -31,7 +31,7 @@
     "react-popper": "^2.3.0",
     "react-query": "^3.39.3",
     "react-select": "^5.8.0",
-    "use-debounce": "^10.0.0"
+    "use-debounce": "^10.0.4"
   },
   "devDependencies": {
     "eslint": "8.57.0",
