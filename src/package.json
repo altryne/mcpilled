@@ -13,7 +13,7 @@
     "algoliasearch": "^4.23.2",
     "clsx": "^2.1.0",
     "date-fns": "^3.6.0",
-    "downshift": "^9.0.4",
+    "downshift": "^9.0.9",
     "escape-html": "^1.0.3",
     "firebase": "^10.10.0",
     "image-size": "^1.1.1",
