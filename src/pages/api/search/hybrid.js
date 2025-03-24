@@ -234,6 +234,6 @@ function highlightText(text, query) {
   if (!text) return '';
   
   // Simple highlighting - in production you'd use more sophisticated methods
-  const regex = new RegExp(`(${query.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')})`, 'gi');
+  const regex = new RegExp(`(${query.replace(/[-\\^$*+?.()|[\]{}]/g, '\\$&')})`, 'gi');
   return text.replace(regex, '<em>$1</em>');
 }
