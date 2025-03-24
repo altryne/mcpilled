@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { sentenceCase } from "../../js/utilities";
-import FILTERS, { FILTER_CATEGORIES } from "../../constants/filters";
+import { FILTERS, FILTER_CATEGORIES } from "../../constants/filters";
 import { EntryPropType } from "../../js/entry";
 
 export default function FilterSelector({ filter, entry, setEntry }) {

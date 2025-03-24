@@ -29,11 +29,11 @@ export default function Contribute() {
           <h3>Suggest Content or Improvements</h3>
           <p>
             The best way to suggest additions or changes to this site is via GitHub Issues.{" "}
-            <ExternalLink href="https://github.com/atryne/mcpilled/issues/new">
+            <ExternalLink href="https://github.com/altryne/mcpilled/issues/new?template=new-entry.yml">
               <span>Open a new issue</span>
             </ExternalLink>{" "}
-            with your suggestion, or{" "}
-            <ExternalLink href="https://github.com/atryne/mcpilled/pulls">
+            with your suggestion or a news item that you found interesting, or{" "}
+            <ExternalLink href="https://github.com/altryne/mcpilled/pulls">
               submit a pull request
             </ExternalLink>{" "}
             directly to the repository.
@@ -42,7 +42,7 @@ export default function Contribute() {
           <h3>Share Your MCP Projects</h3>
           <p>
             Have you built something interesting with MCP? We'd love to feature it! Share your projects, tutorials, or use cases by{" "}
-            <ExternalLink href="https://github.com/atryne/mcpilled/issues/new">
+            <ExternalLink href="https://github.com/altryne/mcpilled/issues/new">
               <span>opening an issue</span>
             </ExternalLink>{" "}
             with the details of your project and how it uses MCP.
@@ -73,18 +73,19 @@ export default function Contribute() {
           <ul>
             <li>Fix bugs or improve the website</li>
             <li>Improve documentation</li>
+            <li>Vibe code a fix</li>
           </ul>
           <p>
-            Check out the{" "}
-            <ExternalLink href="https://github.com/anthropics/anthropic-cookbook/tree/main/mcp">
-              <span>MCP section of the Anthropic Cookbook</span>
-            </ExternalLink>{" "}
-            to get started.
+            Submit a pull request to the{" "}
+            <ExternalLink href="https://github.com/altryne/mcpilled">
+              <span>GitHub repository</span>
+            </ExternalLink>
+            .
           </p>
 
           <h3>Spread the Word</h3>
           <p>
-            Help others discover MCP by sharing MCPilled.com with your network. The more people who know about and use MCP, the stronger the ecosystem becomes!
+            Help others discover MCP by sharing MCPilled.com or @mcpilled on Socials with your network. The more people who know about and use MCP, the stronger the ecosystem becomes!
           </p>
 
           <h3>Contact</h3>
@@ -93,10 +94,7 @@ export default function Contribute() {
             <ExternalLink href="https://twitter.com/altryne">
               <span>Twitter</span>
             </ExternalLink>{" "}
-            or via the{" "}
-            <ExternalLink href="https://discord.gg/mcpilled">
-              <span>MCPilled Discord</span>
-            </ExternalLink>.
+            
           </p>
         </article>
       </div>

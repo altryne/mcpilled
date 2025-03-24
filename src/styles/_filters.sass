@@ -7,6 +7,7 @@
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1)
   padding: 5px 0
   min-height: 50px
+  margin-bottom: 20px
 
   h2
     font-size: 1em
@@ -16,6 +17,9 @@
   display: flex
   max-width: 1600px
   margin: 0 10px
+  flex-direction: column
+  width: 100%
+  position: relative
 
 .filters-group,
 .search-group,
@@ -35,6 +39,24 @@
 
 .expand-filters-button
   color: $filter-text
+  display: flex
+  height: 40px
+  min-width: max-content
+  align-items: center
+  width: auto
+  text-align: left
+  border: 0
+  background: transparent
+  margin: 0
+  padding: 0 5px
+  cursor: pointer
+
+  h2
+    font-family: $body-font
+    font-weight: normal
+    font-size: 18px
+    margin: 0
+    padding-right: 8px
 
   &:disabled
     color: $filter-text
@@ -47,105 +69,213 @@
   i
     margin-right: 5px
 
-.filters-expandable
-  justify-content: space-between
-
-.filter-and-button, .filters-expandable
+.filter-and-button
   display: flex
   align-items: center
+
+.filters-expandable
+  justify-content: space-between
+  flex-direction: column
+  width: 100%
+  display: none
+  padding: 10px 5px
+  
+  &.expanded
+    display: flex
 
 .filter-select div[class*="-menu"]
   z-index: 6
 
-.search-group
+.search-container-dropdown
+  width: 100%
+  margin-top: 15px
+  padding-top: 15px
+  border-top: 1px solid $filterbar-border
+  margin-top: 10px
+  margin-bottom: 10px
+
+.search
+  width: 100%
+
+.search-input-container
+  display: flex
+  width: 100%
+
   .search-input
     min-height: 38px // Match select height
     border: 1px solid $filterbar-border
-    border-radius: 4px
+    border-radius: 4px 0 0 4px
     padding-left: 10px
+    flex-grow: 1
+    font-size: 1rem
+    
+    &:focus
+      outline: none
+      border-color: $accent
+      box-shadow: 0 0 0 1px $accent
 
-.search-results-menu
+  .search-button
+    height: 38px
+    border: 1px solid $accent
+    border-left: none
+    background-color: $accent
+    color: white
+    padding: 0 15px
+    border-radius: 0 4px 4px 0
+    cursor: pointer
+    font-weight: 500
+    transition: background-color 0.2s
+    
+    &:hover:not(:disabled)
+      background-color: darken($accent, 5%)
+    
+    &:disabled
+      opacity: 0.6
+      cursor: not-allowed
+    
+    &.searching
+      background-color: darken($accent, 10%)
+      position: relative
+
+.search-results
+  margin-top: 5px
+  background: $card-background
+  border-radius: 3px
   display: none
   position: absolute
-  margin: 3px 10px 0 0
-  padding: 0
-  background-color: $card-background
-  min-width: 300px
-  max-width: 600px
-  max-height: 50%
-  overflow: hidden auto
+  z-index: 10
   border: 1px solid $filterbar-border
-  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2)
-  z-index: 6
-
-  li
-    list-style: none
-
-  &.is-open
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1)
+  max-height: 400px
+  overflow-y: auto
+  width: 100%
+  
+  &.search-results--open
     display: block
 
-  .search-help
+  .search-result-footer
     color: $timestamp-color
-    font-style: italic
-    padding: 10px
+    font-size: 0.7rem
+    padding: 3px 8px
+    background: $card-footer-background
+    margin-top: 8px
+    border-top: 1px solid $filterbar-border
 
-  .search-result
-    margin: 0
-    padding: 10px
-    cursor: pointer
-    font-size: 0.9em
+.search-stats
+  padding: 6px 8px
+  font-size: 0.7rem
+  color: $timestamp-color
+  border-bottom: 1px solid $filterbar-border
 
-    &:not(:last-child)
-      border-bottom: 1px solid #eee
-
-    &.highlighted
-      background-color: $filter-highlight
-
+.search-result
+  padding: 10px
+  cursor: pointer
+  transition: background-color 0.2s
+  border-bottom: 1px solid $filterbar-border
+  
+  &:last-child
+    border-bottom: none
+  
+  &.search-result--highlighted
+    background-color: rgba($accent, 0.1)
+  
+  .result-title
+    font-weight: 500
+    margin-bottom: 3px
+  
+  .timestamp
+    font-size: 0.75rem
+    color: $timestamp-color
+    margin-bottom: 5px
+  
+  .body-snippet
+    font-size: 0.85rem
+    
     em
-      font-style: normal
       font-weight: bold
+      background-color: rgba($accent, 0.2)
+      padding: 0 2px
+      border-radius: 2px
+      font-style: normal
 
-    .result-title, .timestamp
-      margin-bottom: 5px
+  .search-result-scores
+    font-size: 0.7rem
+    color: $timestamp-color
+    margin-top: 4px
+    
+    span:not(:last-child)
+      margin-right: 8px
 
-    .timestamp, .result-body
-      font-size: 0.85em
+.filters-group
+  display: flex
+  flex-wrap: wrap
+  align-items: center
+  gap: 10px
+  margin-top: 10px
+  margin-bottom: 10px
 
-    .result-body
-      overflow: hidden
-      text-overflow: ellipsis
-      display: -webkit-box
-      -webkit-line-clamp: 2
-      -webkit-box-orient: vertical
+  button
+    margin: 0
+    padding: 6px 8px
+    background: $accent
+    border: none
+    font: inherit
+    cursor: pointer
+    color: white
+    border-radius: 3px
+    margin-left: auto
+    white-space: nowrap
+    font-size: 14px
+    height: 30px
+    
+    &:disabled
+      opacity: 0.5
+      cursor: not-allowed
+
+// Fix for filter selects to be side by side on non-mobile screens
+@media only screen and (min-width: #{$xs-breakpoint + 1}px)
+  .filters-group
+    flex-direction: row
+    
+    .filter-select
+      min-width: 150px
+      margin-right: 10px
 
 // All screens > LG
 @media only screen and (min-width: #{$lg-breakpoint + 1}px)
   .timeline-filter
-    width: 90%
-    margin: 0 auto
-
-    .expand-filters-button
-      margin-right: 20px
-
-      .fa-caret-down
-        display: none
+    display: flex
+    flex-direction: column
+    min-width: 250px
+    width: 100%
 
   .filters-expandable
-    flex-grow: 1
+    border-top: 1px solid $filterbar-border
+    padding-top: 10px
+    margin-top: 5px
+    
+    &.expanded
+      display: flex
+    
+    .filter-select
+      display: inline-block
+      width: auto
+      min-width: 150px
+      margin-right: 10px
 
 // All screens < LG
 @media only screen and (max-width: #{$lg-breakpoint}px)
-  .timeline-filter, .filters-expandable
-    width: 100%
-    flex-direction: column
-
+  .timeline-filter
+    margin-bottom: 10px
+    
   .filters-expandable
-    display: none
-    border-top: 1px solid $timeline-line-color
-
+    border-top: 1px solid $filterbar-border
+    padding-top: 10px
+    margin-top: 5px
+    
     &.expanded
       display: flex
-
+    
     .filter-select
       flex-grow: 1
       margin-top: 10px
@@ -154,18 +284,6 @@
     height: 30px
     flex-grow: 1
     justify-content: space-between
-
-  .filters-group
-    margin-bottom: 5px
-
-  .search-and-results
-    width: 100%
-
-  .search-container, .search-input
-    flex-grow: 1
-
-  .search-container
-    display: flex
 
 // All screens > MD
 @media only screen and (min-width: #{$md-breakpoint + 1}px)
@@ -187,10 +305,10 @@
     flex-direction: column
     align-items: center
 
-  .filter-select, .search-input, .sort-button, .search-results-menu
+  .filter-select, .search-input, .sort-button, .search-results
     width: 90%
 
-  .search-results-menu
+  .search-results
     left: calc(5% + 10px)
     max-width: none
 
@@ -202,7 +320,7 @@
     padding: 10px 0
 
   .filters-group
-    border-bottom: 1px solid $timeline-line-color
+    border-bottom: 1px solid $filterbar-border
 
   .search-group
     margin-top: 10px
@@ -222,13 +340,13 @@
         color: $dark-filter-text
 
     .filters-expandable
-      border-color: $dark-timeline-line-color
+      border-color: $dark-filterbar-border
 
   .filter-select
 
     >div
       background-color: $dark-lightbox-background
-      border-color: $dark-timeline-line-color
+      border-color: $dark-filterbar-border
 
     div[class*="-control"]
       border-color: $dark-card-background !important
@@ -247,11 +365,11 @@
       &:hover, &:active
         background-color: $dark-card-background
 
-  .search-group
+  .search-input-container
     .search-input
       background-color: $dark-lightbox-background
       color: $dark-filter-text
-      border-color: $dark-timeline-line-color
+      border-color: $dark-filterbar-border
 
       &::placeholder
         color: $dark-filter-text
@@ -259,14 +377,38 @@
       &:focus-visible
         outline-style: solid
 
-    .search-results-menu
-      background-color: $dark-lightbox-background
-      border: 1px solid $dark-filterbar-border
-      scrollbar-color: #606060 $dark-lightbox-background
+    .search-button
+      background-color: $dark-link-color
+      border: 1px solid $dark-link-color
 
-    .search-result
-      &:not(:last-child)
-        border-bottom-color: $dark-filterbar-border
+      &:hover:not(:disabled)
+        background-color: darken($dark-link-color, 5%)
 
-      &.highlighted
-        background-color: $dark-card-background
+      &:disabled
+        opacity: 0.6
+        cursor: not-allowed
+
+      &.searching
+        background-color: darken($dark-link-color, 10%)
+
+  .search-results
+    background-color: $dark-lightbox-background
+    border: 1px solid $dark-filterbar-border
+    scrollbar-color: #606060 $dark-lightbox-background
+
+  .search-result
+    &:not(:last-child)
+      border-bottom-color: $dark-filterbar-border
+
+    &.search-result--highlighted
+      background-color: $dark-card-background
+
+    .result-title
+      color: $dark-filter-text
+
+    .timestamp
+      color: #666666
+
+    .body-snippet
+      em
+        background-color: rgba($dark-link-color, 0.2)

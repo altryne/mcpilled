@@ -42,6 +42,11 @@ export default function Timeline({
   const isBrowserRendering = useIsBrowserRendering();
   const windowWidth = useWindowWidth();
 
+  // Add state for search mode
+  const [searchMode, setSearchMode] = useState('hybrid');
+  // Add state for sort order
+  const [sortOrder, setSortOrder] = useState(filters.sort || 'Descending');
+
   const [headerInViewRef, headerInView] = useInView();
   const headerFocusRef = useRef();
 
@@ -261,6 +266,13 @@ export default function Timeline({
       <FixedAtBottom
         headerInView={headerInView}
         scrollToTop={scrollToTop}
+        searchMode={searchMode}
+        setSearchMode={setSearchMode}
+        sortOrder={sortOrder}
+        setSortOrder={(order) => {
+          setSortOrder(order);
+          setFilters({...filters, sort: order});
+        }}
       />
     </>
   );

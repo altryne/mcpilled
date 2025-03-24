@@ -36,7 +36,8 @@ export const getSession = async () => {
 
 // Set up auth state change listener
 export const onAuthStateChange = (callback) => {
-  return supabase.auth.onAuthStateChange((event, session) => {
+  const { data } = supabase.auth.onAuthStateChange((event, session) => {
     callback(session?.user || null);
   });
+  return { data };
 };

@@ -143,6 +143,7 @@ export default function TimelineEntryContent({ children, glossary }) {
           __html: hydratedBody,
         }}
         onClick={onEntryClick}
+        style={{ whiteSpace: "pre-wrap" }}
       />
     </div>
   );

@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import clsx from "clsx";
 
 import { useRouter } from "next/router";
-import { useDebounce } from "use-debounce";
 import { useCombobox } from "downshift";
 
 import { search as searchEntries } from "../../db/searchEntries";
@@ -12,6 +11,12 @@ import FILTERS from "../../constants/filters";
 
 const MINIMUM_SEARCH_LENGTH = 3;
 const BODY_SNIPPET_LENGTH = 200;
+
+const SEARCH_MODES = {
+  HYBRID: 'hybrid',
+  VECTOR: 'vector',
+  TEXT: 'text'
+};
 
 function stateReducer(state, actionAndChanges) {
   const { type, changes } = actionAndChanges;
@@ -35,13 +40,57 @@ export default function Search({
   searchText,
   setSearchText,
   setSelectedEntryFromSearch,
+  searchMode,
 }) {
   const router = useRouter();
 
   const [searchTerm, setSearchTerm] = useState(searchText || "");
   const [items, setItems] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
-  const [debouncedSearchTerm] = useDebounce(searchTerm, 500);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [searchStats, setSearchStats] = useState(null);
+
+  // Function to handle search button click
+  const handleSearch = async () => {
+    if (searchTerm.length >= MINIMUM_SEARCH_LENGTH) {
+      setIsSearching(true);
+      try {
+        const startTime = performance.now();
+        const results = await searchEntries(searchTerm, filters, searchMode);
+        const endTime = performance.now();
+        
+        setItems(results.hits);
+        setSearchStats({
+          total: results.hits.length,
+          textScore: results.textScore || 0,
+          vectorScore: results.vectorScore || 0,
+          time: Math.round(endTime - startTime),
+        });
+        
+        if (results.hits.length > 0) {
+          setShowDropdown(true);
+          openMenu();
+        } else {
+          setShowDropdown(false);
+          closeMenu();
+        }
+      } catch (error) {
+        console.error("Search error:", error);
+        setShowDropdown(false);
+        closeMenu();
+      } finally {
+        setIsSearching(false);
+      }
+    }
+  };
+
+  // Handle Enter key press in the search input
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+      event.preventDefault();
+    }
+  };
 
   const {
     isOpen,
@@ -50,6 +99,7 @@ export default function Search({
     highlightedIndex,
     getItemProps,
     openMenu,
+    closeMenu,
   } = useCombobox({
     stateReducer,
     items: items,
@@ -57,32 +107,28 @@ export default function Search({
     onInputValueChange: ({ inputValue }) => {
       setSearchTerm(inputValue);
       setSearchText(inputValue);
+      
+      // Hide dropdown when input is cleared
+      if (!inputValue || inputValue.length === 0) {
+        setShowDropdown(false);
+        closeMenu();
+      }
     },
     onSelectedItemChange: ({ selectedItem }) => {
-      setSelectedEntryFromSearch(selectedItem.readableId);
-      // Write the URL so people can permalink easily
-      router.push(
-        { query: { ...router.query, id: selectedItem.readableId } },
-        null,
-        {
-          shallow: true,
-        }
-      );
+      if (selectedItem) {
+        setSelectedEntryFromSearch(selectedItem.readableId);
+        // Write the URL so people can permalink easily
+        router.push(
+          { query: { ...router.query, id: selectedItem.readableId } },
+          null,
+          {
+            shallow: true,
+          }
+        );
+        closeMenu();
+      }
     },
   });
-
-  useEffect(() => {
-    if (debouncedSearchTerm.length >= MINIMUM_SEARCH_LENGTH) {
-      setIsSearching(true);
-      searchEntries(debouncedSearchTerm, filters).then((results) => {
-        setIsSearching(false);
-        setItems(results.hits);
-      });
-    } else {
-      setItems([]);
-      setIsSearching(false);
-    }
-  }, [debouncedSearchTerm, filters]);
 
   const renderEntryBodySnippet = (item) => {
     const itemBody = item._highlightResult.body;
@@ -99,97 +145,115 @@ export default function Search({
         snippet =
           "&#8230;" +
           truncateToNearestWord(
-            itemBody.value,
-            BODY_SNIPPET_LENGTH,
-            itemBody.value.length - 150
+            itemBody.value.substring(
+              itemBody.value.length - BODY_SNIPPET_LENGTH
+            ),
+            BODY_SNIPPET_LENGTH
           );
       } else {
+        // The highlighted word is in the middle somewhere, so center the snippet on it
         snippet =
           "&#8230;" +
           truncateToNearestWord(
-            itemBody.value,
-            BODY_SNIPPET_LENGTH,
-            highlightedLocation - 50
-          );
+            itemBody.value.substring(
+              Math.max(0, highlightedLocation - BODY_SNIPPET_LENGTH / 2),
+              highlightedLocation + BODY_SNIPPET_LENGTH / 2
+            ),
+            BODY_SNIPPET_LENGTH
+          ) +
+          "&#8230;";
       }
     }
-    return <span dangerouslySetInnerHTML={{ __html: snippet }} />;
+    return (
+      <div
+        className="body-snippet"
+        dangerouslySetInnerHTML={{ __html: snippet }}
+      />
+    );
   };
-
-  const renderMenuContents = () => {
-    if (items.length) {
-      return items.map((item, index) => (
-        <li
-          className={clsx("search-result", {
-            highlighted: highlightedIndex === index,
-          })}
-          key={item.id}
-          {...getItemProps({ item, index })}
-        >
-          <div
-            className="result-title"
-            dangerouslySetInnerHTML={{
-              __html: item._highlightResult.title.value,
-            }}
-          />
-          <div className="timestamp">
-            <time dateTime={item.date}>{humanizeDate(item.date)}</time>
-          </div>
-          <div className="result-body">{renderEntryBodySnippet(item)}</div>
-        </li>
-      ));
-    } else if (searchTerm.length < MINIMUM_SEARCH_LENGTH) {
-      const charactersNeeded = MINIMUM_SEARCH_LENGTH - searchTerm.length;
-      return (
-        <li className="search-help">{`Type ${charactersNeeded} more character${
-          charactersNeeded === 1 ? "" : "s"
-        } to search`}</li>
-      );
-    } else if (isSearching || debouncedSearchTerm !== searchTerm) {
-      return <li className="search-help">Searching...</li>;
-    }
-    return <li className="search-help">No results</li>;
-  };
-
-  const allFilters = useMemo(() => {
-    const filtersObj = {};
-    Object.entries(FILTERS).forEach(([category, values]) => {
-      Object.entries(values).forEach(([key, value]) => {
-        filtersObj[key] = {
-          value: key,
-          text: sentenceCase(value),
-          category,
-          selected: filters[category].includes(key),
-        };
-      });
-    });
-    return filtersObj;
-  }, [filters]);
 
   return (
-    <div className="search-and-results">
-      <div className="search-container">
+    <div className="search">
+      <div className="search-input-container">
         <input
           {...getInputProps({
-            onClick: () => {
-              if (searchTerm !== "" && !isOpen) {
+            placeholder: "Search is hybrid, feel free to type questions in natural language",
+            onFocus: () => {
+              if (items.length > 0 && showDropdown) {
                 openMenu();
               }
             },
+            onKeyDown: handleKeyDown,
           })}
           className="search-input"
-          placeholder="Search"
         />
+        <button 
+          className={clsx("search-button", { "searching": isSearching })} 
+          onClick={handleSearch}
+          disabled={searchTerm.length < MINIMUM_SEARCH_LENGTH || isSearching}
+        >
+          {isSearching ? "Searching..." : "Search"}
+        </button>
       </div>
-      <ul
+      
+      <div
+        className={clsx("search-results", {
+          "search-results--open": isOpen && items.length > 0 && showDropdown,
+        })}
         {...getMenuProps()}
-        className={clsx("search-results-menu", { "is-open": isOpen })}
       >
-        {isOpen && renderMenuContents()}
-      </ul>
+        {isOpen && items.length > 0 && showDropdown && (
+          <>
+            <div className="search-stats">
+              {searchStats && (
+                <p>
+                  Found {searchStats.total} results{" "}
+                  {searchMode === "hybrid" && (
+                    <span>
+                      (Text: {searchStats.textScore.toFixed(2)}, Vector: {searchStats.vectorScore.toFixed(2)})
+                    </span>
+                  )}{" "}
+                  in {searchStats.time}ms
+                </p>
+              )}
+            </div>
+            {items.map((item, index) => (
+              <div
+                className={clsx("search-result", {
+                  "search-result--highlighted": highlightedIndex === index,
+                })}
+                key={`${item.readableId}`}
+                {...getItemProps({ item, index })}
+              >
+                <div className="search-result-title">
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: item._highlightResult.title.value,
+                    }}
+                  />
+                </div>
+                <div className="search-result-date">
+                  {humanizeDate(item.date)}
+                </div>
+                {renderEntryBodySnippet(item)}
+                <div className="search-result-scores">
+                  <span className="search-result-score">Score: {item._score.toFixed(2)}</span>
+                  {item._textScore > 0 && (
+                    <span className="search-result-score">Text: {item._textScore.toFixed(2)}</span>
+                  )}
+                  {item._vectorScore > 0 && (
+                    <span className="search-result-score">Vector: {item._vectorScore.toFixed(2)}</span>
+                  )}
+                </div>
+              </div>
+            ))}
+          </>
+        )}
+      </div>
     </div>
   );
 }
+
 Search.propTypes = {
   filters: PropTypes.shape({
     theme: PropTypes.arrayOf(PropTypes.oneOf(Object.keys(FILTERS.theme)))
@@ -200,7 +264,8 @@ Search.propTypes = {
       .isRequired,
   }).isRequired,
   setFilters: PropTypes.func.isRequired,
-  searchText: PropTypes.string.isRequired,
+  searchText: PropTypes.string,
   setSearchText: PropTypes.func.isRequired,
   setSelectedEntryFromSearch: PropTypes.func.isRequired,
+  searchMode: PropTypes.string.isRequired,
 };

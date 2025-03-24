@@ -27,6 +27,186 @@
         i
           padding-right: 5px
 
+    // Floating save button container
+    .save-button-container
+      display: flex
+      flex-direction: column
+      align-items: flex-start
+      margin-top: 20px
+      transition: all 0.3s ease
+      
+      &.floating
+        position: fixed
+        bottom: 0
+        left: 0
+        right: 0
+        background-color: $main-background
+        padding: 15px
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1)
+        z-index: 100
+        display: flex
+        flex-direction: row
+        justify-content: space-between
+        align-items: center
+        
+        .button-group
+          display: flex
+          
+        .save-message
+          margin: 0 15px 0 0
+      
+      .button-group
+        display: flex
+        
+      .save-button
+        background-color: #4CAF50
+        color: white
+        border: none
+        padding: 8px 15px
+        cursor: pointer
+        
+        &:disabled
+          background-color: #cccccc
+          cursor: not-allowed
+        
+        i
+          margin-right: 5px
+      
+      .clear-button
+        background-color: #FF9800
+        color: white
+        border: none
+        padding: 8px 15px
+        margin-left: 10px
+        cursor: pointer
+        
+        i
+          margin-right: 5px
+      
+      .delete-button
+        background-color: #f44336
+        color: white
+        border: none
+        padding: 8px 15px
+        margin-left: 10px
+        cursor: pointer
+        
+        i
+          margin-right: 5px
+      
+      .signout-button
+        background-color: #757575
+        color: white
+        border: none
+        padding: 8px 15px
+        margin-left: 10px
+        cursor: pointer
+        
+        i
+          margin-right: 5px
+      
+      .preview-button
+        background-color: #2196F3
+        color: white
+        border: none
+        padding: 8px 15px
+        margin-left: 10px
+        cursor: pointer
+        
+        i
+          margin-right: 5px
+    
+    // Save message styles
+    .save-message
+      margin: 10px 0
+      padding: 10px
+      border-radius: 4px
+      font-weight: bold
+      
+      &.success
+        background-color: #E8F5E9
+        color: #2E7D32
+        border-left: 4px solid #2E7D32
+      
+      &.error
+        background-color: #FFEBEE
+        color: #C62828
+        border-left: 4px solid #C62828
+    
+    // Confirmation dialog
+    .confirmation-dialog
+      position: fixed
+      top: 0
+      left: 0
+      right: 0
+      bottom: 0
+      background-color: rgba(0, 0, 0, 0.7)
+      display: flex
+      justify-content: center
+      align-items: center
+      z-index: 1000
+      backdrop-filter: blur(3px)
+      
+      .confirmation-content
+        background-color: $card-background
+        padding: 25px
+        border-radius: 8px
+        max-width: 450px
+        width: 100%
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25)
+        border: 1px solid rgba(255, 255, 255, 0.1)
+        
+        h3
+          margin-top: 0
+          margin-bottom: 15px
+          font-size: 20px
+          font-weight: bold
+          color: #333
+          
+        p
+          margin-bottom: 20px
+          font-size: 16px
+          line-height: 1.5
+          color: #555
+          
+        .confirmation-buttons
+          display: flex
+          justify-content: flex-end
+          margin-top: 25px
+          
+          button
+            margin-left: 15px
+            padding: 10px 20px
+            border-radius: 4px
+            font-weight: 500
+            font-size: 14px
+            cursor: pointer
+            transition: all 0.2s ease
+            
+            &:first-child
+              background-color: #4CAF50
+              color: white
+              border: none
+              
+              &:hover
+                background-color: darken(#4CAF50, 10%)
+                transform: translateY(-2px)
+            
+            &:last-child
+              background-color: #f5f5f5
+              color: #333
+              border: 1px solid #ddd
+              
+              &:hover
+                background-color: darken(#f5f5f5, 5%)
+                transform: translateY(-2px)
+    
+    // Form end marker
+    .form-end-marker
+      height: 1px
+      width: 100%
+      margin-bottom: 60px  // Space for the floating button
+
   .form-wrapper
     display: flex
     flex-wrap: nowrap

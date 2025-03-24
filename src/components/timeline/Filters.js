@@ -11,6 +11,14 @@ import { sentenceCase } from "../../js/utilities";
 import Select from "react-select";
 import Search from "./Search";
 import Checkbox from "../Checkbox";
+import SettingsPanel from "./SettingsPanel";
+
+// Define search modes
+const SEARCH_MODES = {
+  HYBRID: 'hybrid',
+  VECTOR: 'vector',
+  TEXT: 'text'
+};
 
 export default function Filters({
   filters,
@@ -20,17 +28,19 @@ export default function Filters({
   setSelectedEntryFromSearch,
   windowWidth,
 }) {
-  // Expand by default if there are initial filters defined
-  const [isFilterGroupExpanded, setIsFilterGroupExpanded] = useState(
-    FILTER_CATEGORIES.some((filter) => filters[filter].length > 0)
-  );
+  // Make dropdown closed by default on all screen sizes
+  const [isFilterGroupExpanded, setIsFilterGroupExpanded] = useState(false);
+  
+  // Settings panel state
+  const [isSettingsPanelShown, setIsSettingsPanelShown] = useState(false);
+  
+  // Search mode state (default to hybrid)
+  const [searchMode, setSearchMode] = useState(SEARCH_MODES.HYBRID);
 
-  const renderLabel = () => {
-    if (windowWidth === "xl") {
-      return "Filter:";
-    }
-    return "Filter and search";
-  };
+  // Use a consistent label
+  const renderLabel = () => "Filter and search";
+
+  const [searchText, setSearchText] = useState("");
 
   const renderFilterGroup = (filter) => {
     return (
@@ -62,47 +72,24 @@ export default function Filters({
     );
   };
 
-  const renderSortButton = () => (
-    <button
-      className="sort-button"
-      onClick={() =>
-        setFilters({
-          ...filters,
-          sort: filters.sort === "Ascending" ? "Descending" : "Ascending",
-        })
-      }
-    >
-      <i
-        className={`fas fa-caret-${
-          filters.sort === "Ascending" ? "up" : "down"
-        }`}
-        aria-hidden={true}
-      ></i>{" "}
-      {filters.sort}
-    </button>
-  );
-
-  const [searchText, setSearchText] = useState("");
-
   return (
     <div className="timeline-filter-wrapper">
-      <section className="timeline-filter">
-        <button
-          className="expand-filters-button"
-          aria-controls="filters-expandable"
-          aria-expanded={windowWidth === "xl" ? null : isFilterGroupExpanded}
-          disabled={windowWidth === "xl"}
-          onClick={() => setIsFilterGroupExpanded(!isFilterGroupExpanded)}
-        >
-          <h2>{renderLabel()}</h2>
-          <i className="fas fa-caret-down"></i>
-        </button>
+      <div className="timeline-filter">
+        <div className="filter-and-button">
+          <button
+            className="expand-filters-button"
+            aria-controls="filters-expandable"
+            aria-expanded={isFilterGroupExpanded}
+            onClick={() => setIsFilterGroupExpanded(!isFilterGroupExpanded)}
+          >
+            <h2>{renderLabel()}</h2>
+            <i className={`fas fa-caret-${isFilterGroupExpanded ? "up" : "down"}`}></i>
+          </button>
+        </div>
 
         <div
           id="filters-expandable"
-          className={`filters-expandable ${
-            isFilterGroupExpanded ? "expanded" : ""
-          }`}
+          className={`filters-expandable ${isFilterGroupExpanded ? "expanded" : ""}`}
         >
           <div className="filters-group">
             {FILTER_CATEGORIES.map(renderFilterGroup)}
@@ -131,19 +118,30 @@ export default function Filters({
               Clear all
             </button>
           </div>
-
-          <div className="search-group">
+          
+          {/* Search inside dropdown */}
+          <div className="search-container-dropdown">
             <Search
               filters={filters}
               setFilters={setFilters}
               searchText={searchText}
               setSearchText={setSearchText}
               setSelectedEntryFromSearch={setSelectedEntryFromSearch}
+              searchMode={searchMode}
             />
-            {renderSortButton()}
           </div>
         </div>
-      </section>
+      </div>
+      
+      {isSettingsPanelShown && (
+        <SettingsPanel
+          setIsSettingsPanelShown={setIsSettingsPanelShown}
+          searchMode={searchMode}
+          setSearchMode={setSearchMode}
+          sortOrder={filters.sort}
+          setSortOrder={(sortOrder) => setFilters({...filters, sort: sortOrder})}
+        />
+      )}
     </div>
   );
 }

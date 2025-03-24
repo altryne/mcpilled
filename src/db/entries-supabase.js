@@ -55,8 +55,8 @@ export const getEntries = async ({
   limit: entriesLimit,
   sort,
   theme,
-  tech,
-  blockchain,
+  category,
+  server,
   collection: entriesCollection,
   cursor,
   startAtId,
@@ -81,20 +81,26 @@ export const getEntries = async ({
     `)
     .order('id', { ascending: sort === 'Ascending' });
   
-  // Apply filters
+  // Apply collection filter if specified
   if (entriesCollection) {
     query = query.contains('collection', [entriesCollection]);
-  } else if (theme && theme.length) {
-    query = query.in('entry_filters.filter_type', ['theme'])
-      .in('entry_filters.filter_value', theme);
-  } else if (tech && tech.length) {
-    query = query.in('entry_filters.filter_type', ['tech'])
-      .in('entry_filters.filter_value', tech);
-  } else if (blockchain && blockchain.length) {
-    query = query.in('entry_filters.filter_type', ['blockchain'])
-      .in('entry_filters.filter_value', blockchain);
   } else if (starred) {
+    // Apply starred filter if specified
     query = query.eq('starred', true);
+  } else {
+    // Apply theme, category, and server filters if any are specified
+    // We'll use a different approach that works better with Supabase
+    
+    const hasThemeFilters = theme && theme.length > 0;
+    const hasCategoryFilters = category && category.length > 0;
+    const hasServerFilters = server && server.length > 0;
+    
+    // Only apply filters if at least one filter type is specified
+    if (hasThemeFilters || hasCategoryFilters || hasServerFilters) {
+      // We'll fetch all entries and then filter them in memory
+      // This is a workaround for the limitations of Supabase's query builder
+      // with complex filter conditions across nested relations
+    }
   }
   
   // Apply cursor or startAtId
@@ -120,8 +126,40 @@ export const getEntries = async ({
   }
   
   if (data && data.length > 0) {
+    // Filter entries based on filter criteria if needed
+    let filteredData = data;
+    
+    // If we're not using collection or starred filters, apply our custom filtering
+    if (!entriesCollection && !starred) {
+      const hasThemeFilters = theme && theme.length > 0;
+      const hasCategoryFilters = category && category.length > 0;
+      const hasServerFilters = server && server.length > 0;
+      
+      if (hasThemeFilters || hasCategoryFilters || hasServerFilters) {
+        filteredData = data.filter(entry => {
+          const entryFilters = entry.entry_filters || [];
+          
+          // Check if the entry matches all the filter criteria
+          const matchesTheme = !hasThemeFilters || entryFilters.some(
+            filter => filter.filter_type === 'theme' && theme.includes(filter.filter_value)
+          );
+          
+          const matchesCategory = !hasCategoryFilters || entryFilters.some(
+            filter => filter.filter_type === 'category' && category.includes(filter.filter_value)
+          );
+          
+          const matchesServer = !hasServerFilters || entryFilters.some(
+            filter => filter.filter_type === 'server' && server.includes(filter.filter_value)
+          );
+          
+          // Entry must match all specified filter types
+          return matchesTheme && matchesCategory && matchesServer;
+        });
+      }
+    }
+    
     // Process entries exactly like Firebase did
-    data.forEach(entry => {
+    filteredData.forEach(entry => {
       if (resp.entries.length < respLimit) {
         // Transform the entry to match Firebase structure
         const processedEntry = {
@@ -135,13 +173,13 @@ export const getEntries = async ({
           faicon: entry.faicon,
           icon: entry.icon,
           image: entry.image,
-          scamAmountDetails: entry.scam_amount_details,
-          collection: entry.collection,
           starred: entry.starred,
+          collection: entry.collection,
           filters: {
             theme: entry.entry_filters?.filter(f => f.filter_type === 'theme').map(f => f.filter_value) || [],
-            tech: entry.entry_filters?.filter(f => f.filter_type === 'tech').map(f => f.filter_value) || [],
-            blockchain: entry.entry_filters?.filter(f => f.filter_type === 'blockchain').map(f => f.filter_value) || []
+            category: entry.entry_filters?.filter(f => f.filter_type === 'category').map(f => f.filter_value) || [],
+            server: entry.entry_filters?.filter(f => f.filter_type === 'server').map(f => f.filter_value) || [],
+            sort: "Descending"
           },
           links: (entry.entry_links || []).map(link => ({
             id: link.id,
@@ -218,8 +256,9 @@ export const getAllEntries = async ({ cursor, direction }) => {
             ...entry,
             filters: {
               theme: entry.entry_filters?.filter(f => f.filter_type === 'theme').map(f => f.filter_value) || [],
-              tech: entry.entry_filters?.filter(f => f.filter_type === 'tech').map(f => f.filter_value) || [],
-              blockchain: entry.entry_filters?.filter(f => f.filter_type === 'blockchain').map(f => f.filter_value) || []
+              category: entry.entry_filters?.filter(f => f.filter_type === 'category').map(f => f.filter_value) || [],
+              server: entry.entry_filters?.filter(f => f.filter_type === 'server').map(f => f.filter_value) || [],
+              sort: "Descending"
             },
             links: (entry.entry_links || []).map(link => ({
               id: link.id,
@@ -243,8 +282,9 @@ export const getAllEntries = async ({ cursor, direction }) => {
           ...entry,
           filters: {
             theme: entry.entry_filters?.filter(f => f.filter_type === 'theme').map(f => f.filter_value) || [],
-            tech: entry.entry_filters?.filter(f => f.filter_type === 'tech').map(f => f.filter_value) || [],
-            blockchain: entry.entry_filters?.filter(f => f.filter_type === 'blockchain').map(f => f.filter_value) || []
+            category: entry.entry_filters?.filter(f => f.filter_type === 'category').map(f => f.filter_value) || [],
+            server: entry.entry_filters?.filter(f => f.filter_type === 'server').map(f => f.filter_value) || [],
+            sort: "Descending"
           },
           links: (entry.entry_links || []).map(link => ({
             id: link.id,

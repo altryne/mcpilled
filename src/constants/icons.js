@@ -1,47 +1,78 @@
-import FILTERS from "./filters";
+import { FILTERS } from "./filters";
 
 export const ICON_PATHS = {
-  hack: "robber.png",
-  hacker: "robber.png",
-  hmm: "wtf.png",
-  layoffs: "layoffs.png",
-  rug: "rug.png",
-  shady: "shades.png",
+  mcp: "mcp.png",
+  client: "client.png",
+  warning: "warning.png",
 };
 
 export const ALL_ICONS = {
-  poo: { type: "fa", value: "poo", text: FILTERS.theme.badIdea },
-  bug: { type: "fa", value: "bug", text: FILTERS.theme.bug },
-  fire: { type: "fa", value: "fire", text: FILTERS.theme.environment },
-  "face-frown": {
-    type: "fa",
-    value: "face-frown",
-    text: FILTERS.theme.bummer,
+  // Font Awesome icons
+  "hammer": { 
+    type: "fa", 
+    value: "hammer", 
+    text: "MCP Tool" 
   },
-  gavel: { type: "fa", value: "gavel", text: FILTERS.theme.law },
-  newspaper: { type: "fa", value: "newspaper", text: FILTERS.theme.reporting },
-  paintbrush: { type: "fa", value: "paintbrush", text: FILTERS.theme.artTheft },
-  repeat: { type: "fa", value: "repeat", text: FILTERS.theme.washTrade },
-  "thumbs-up": { type: "fa", value: "thumbs-up", text: FILTERS.theme.goodNews },
-  "face-grimace": {
-    type: "fa",
-    value: "face-grimace",
-    text: FILTERS.theme.yikes,
+  "code": { 
+    type: "fa", 
+    value: "code", 
+    text: "Code" 
   },
-  burst: {
-    type: "fa",
-    value: "burst",
-    text: FILTERS.theme.collapse,
+  "stamp": { 
+    type: "fa", 
+    value: "stamp", 
+    text: "MCP Protocol" 
   },
-  biohazard: {
-    type: "fa",
-    value: "biohazard",
-    text: FILTERS.theme.contagion,
+  "thumbs-up": { 
+    type: "fa", 
+    value: "thumbs-up", 
+    text: "Good News" 
   },
-
-  hack: { type: "img", value: "hack", text: FILTERS.theme.hack },
-  hmm: { type: "img", value: "hmm", text: FILTERS.theme.hmm },
-  layoffs: { type: "img", value: "layoffs", text: FILTERS.theme.layoffs },
-  rug: { type: "img", value: "rug", text: FILTERS.theme.rugPull },
-  shady: { type: "img", value: "shady", text: FILTERS.theme.shady },
+  "exclamation-circle": { 
+    type: "fa", 
+    value: "exclamation-circle", 
+    text: "Important" 
+  },
+  "exclamation-triangle": { 
+    type: "fa", 
+    value: "exclamation-triangle", 
+    text: "Warning" 
+  },
+  "github": { 
+    type: "fab", 
+    value: "github", 
+    text: "GitHub" 
+  },
+  "github-alt": { 
+    type: "fab", 
+    value: "github-alt", 
+    text: "GitHub (Alt)" 
+  },
+  "git": { 
+    type: "fa", 
+    value: "git", 
+    text: "Git" 
+  },
+  "git-alt": { 
+    type: "fab", 
+    value: "git-alt", 
+    text: "Git (Alt)" 
+  },
+  
+  // Custom image icons
+  "mcp": { 
+    type: "img", 
+    value: "mcp", 
+    text: "MCP Protocol Image" 
+  },
+  "client": { 
+    type: "img", 
+    value: "client", 
+    text: "MCP Client" 
+  },
+  "warning-icon": { 
+    type: "img", 
+    value: "warning", 
+    text: "Warning Image" 
+  },
 };

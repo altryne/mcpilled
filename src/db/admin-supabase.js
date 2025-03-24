@@ -1,8 +1,132 @@
 import { supabase } from './supabase';
 import { stripHtml } from '../js/utilities';
 
-// Upload a new entry
+// Upload a new entry or update an existing one
 export const uploadEntry = async (entry) => {
+  // If entry has an ID, update it instead of creating a new one
+  if (entry.id) {
+    console.log('Updating existing entry:', entry.id);
+    
+    // Update the entry
+    const { data: entryData, error: entryError } = await supabase
+      .from('entries')
+      .update({
+        title: entry.title,
+        short_title: entry.shortTitle,
+        readable_id: entry.readableId,
+        date: entry.date,
+        body: entry.body,
+        faicon: entry.faicon,
+        icon: entry.icon,
+        image: entry.image,
+        collection: entry.collection || [],
+        starred: entry.starred || false
+      })
+      .eq('id', entry.id);
+      
+    if (entryError) {
+      console.error('Error updating entry:', entryError);
+      throw entryError;
+    }
+    
+    // Delete existing filters for this entry
+    const { error: deleteFilterError } = await supabase
+      .from('entry_filters')
+      .delete()
+      .eq('entry_id', entry.id);
+      
+    if (deleteFilterError) {
+      console.error('Error deleting existing filters:', deleteFilterError);
+      throw deleteFilterError;
+    }
+    
+    // Delete existing links for this entry
+    const { error: deleteLinksError } = await supabase
+      .from('entry_links')
+      .delete()
+      .eq('entry_id', entry.id);
+      
+    if (deleteLinksError) {
+      console.error('Error deleting existing links:', deleteLinksError);
+      throw deleteLinksError;
+    }
+    
+    // Insert new filters
+    if (entry.filters) {
+      const filterEntries = [];
+      
+      // Add theme filters
+      if (entry.filters.theme && entry.filters.theme.length > 0) {
+        entry.filters.theme.forEach(theme => {
+          filterEntries.push({
+            entry_id: entry.id,
+            filter_type: 'theme',
+            filter_value: theme
+          });
+        });
+      }
+      
+      // Add category filters
+      if (entry.filters.category && entry.filters.category.length > 0) {
+        entry.filters.category.forEach(category => {
+          filterEntries.push({
+            entry_id: entry.id,
+            filter_type: 'category',
+            filter_value: category
+          });
+        });
+      }
+      
+      // Add server filters
+      if (entry.filters.server && entry.filters.server.length > 0) {
+        entry.filters.server.forEach(server => {
+          filterEntries.push({
+            entry_id: entry.id,
+            filter_type: 'server',
+            filter_value: server
+          });
+        });
+      }
+      
+      if (filterEntries.length > 0) {
+        const { error: filterError } = await supabase
+          .from('entry_filters')
+          .insert(filterEntries);
+          
+        if (filterError) {
+          console.error('Error inserting filters:', filterError);
+          throw filterError;
+        }
+      }
+    }
+    
+    // Insert links
+    if (entry.links && entry.links.length > 0) {
+      const linkEntries = entry.links.map(link => ({
+        entry_id: entry.id,
+        link_text: link.linkText,
+        href: link.href,
+        extra_text: link.extraText,
+        archive_href: link.archiveHref,
+        archive_tweet_path: link.archiveTweetPath,
+        archive_tweet_alt: link.archiveTweetAlt,
+        archive_tweet_assets: link.archiveTweetAssets
+      }));
+      
+      const { error: linkError } = await supabase
+        .from('entry_links')
+        .insert(linkEntries);
+        
+      if (linkError) {
+        console.error('Error inserting links:', linkError);
+        throw linkError;
+      }
+    }
+    
+    return entry.id;
+  }
+  
+  // If no ID, create a new entry
   // Generate a key for this entry
   let idIncrementor = -1;
   let key;
@@ -42,7 +166,6 @@ export const uploadEntry = async (entry) => {
       faicon: entry.faicon,
       icon: entry.icon,
       image: entry.image,
-      scam_amount_details: entry.scamAmountDetails,
       collection: entry.collection || [],
       starred: entry.starred || false
     });
@@ -67,24 +190,24 @@ export const uploadEntry = async (entry) => {
       });
     }
     
-    // Add tech filters
-    if (entry.filters.tech && entry.filters.tech.length > 0) {
-      entry.filters.tech.forEach(tech => {
+    // Add category filters
+    if (entry.filters.category && entry.filters.category.length > 0) {
+      entry.filters.category.forEach(category => {
         filterEntries.push({
           entry_id: entry.id,
-          filter_type: 'tech',
-          filter_value: tech
+          filter_type: 'category',
+          filter_value: category
         });
       });
     }
     
-    // Add blockchain filters
-    if (entry.filters.blockchain && entry.filters.blockchain.length > 0) {
-      entry.filters.blockchain.forEach(blockchain => {
+    // Add server filters
+    if (entry.filters.server && entry.filters.server.length > 0) {
+      entry.filters.server.forEach(server => {
         filterEntries.push({
           entry_id: entry.id,
-          filter_type: 'blockchain',
-          filter_value: blockchain
+          filter_type: 'server',
+          filter_value: server
         });
       });
     }
@@ -125,6 +248,50 @@ export const uploadEntry = async (entry) => {
   }
   
   return entry.id;
+};
+
+// Delete an entry and all related data
+export const deleteEntry = async (entryId) => {
+  if (!entryId) {
+    throw new Error('Entry ID is required for deletion');
+  }
+  
+  // Start a transaction to delete everything related to this entry
+  
+  // 1. Delete entry links
+  const { error: linksError } = await supabase
+    .from('entry_links')
+    .delete()
+    .eq('entry_id', entryId);
+    
+  if (linksError) {
+    console.error('Error deleting entry links:', linksError);
+    throw linksError;
+  }
+  
+  // 2. Delete entry filters
+  const { error: filtersError } = await supabase
+    .from('entry_filters')
+    .delete()
+    .eq('entry_id', entryId);
+    
+  if (filtersError) {
+    console.error('Error deleting entry filters:', filtersError);
+    throw filtersError;
+  }
+  
+  // 3. Delete the entry itself
+  const { error: entryError } = await supabase
+    .from('entries')
+    .delete()
+    .eq('id', entryId);
+    
+  if (entryError) {
+    console.error('Error deleting entry:', entryError);
+    throw entryError;
+  }
+  
+  return true;
 };
 
 // Add attribution (common function for both image and entry attributions)

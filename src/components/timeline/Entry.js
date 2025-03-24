@@ -111,22 +111,45 @@ export default function Entry({
   );
 
   const renderIcon = () => {
-    if (entry.faicon) {
-      return (
-        <div className="icon-wrapper" title={ALL_ICONS[entry.faicon].text}>
-          <i className={`fas fa-${entry.faicon}`} aria-hidden="true"></i>
-        </div>
-      );
-    } else if (entry.icon) {
-      return (
-        <div className="icon-wrapper" title={ALL_ICONS[entry.icon].text}>
-          <img
-            src={`${STORAGE_URL}/icons/${ICON_PATHS[entry.icon]}`}
-            alt="" // Decorative, hidden to screenreaders
-            aria-hidden="true"
-          />
-        </div>
-      );
+    if (entry.icon) {
+      // Check if the icon exists in ALL_ICONS
+      if (ALL_ICONS[entry.icon] && ICON_PATHS[entry.icon]) {
+        return (
+          <div className="icon-wrapper" title={ALL_ICONS[entry.icon].text}>
+            <img
+              src={`/icons/${ICON_PATHS[entry.icon]}`}
+              alt="" // Decorative, hidden to screenreaders
+              aria-hidden="true"
+            />
+          </div>
+        );
+      } else {
+        // Fallback for icons that don't exist
+        return (
+          <div className="icon-wrapper" title="Icon">
+            <i className="fas fa-info-circle" aria-hidden="true"></i>
+          </div>
+        );
+      }
+    } else if (entry.faicon) {
+      // Check if the icon exists in ALL_ICONS
+      if (ALL_ICONS[entry.faicon]) {
+        const iconType = ALL_ICONS[entry.faicon].type;
+        const iconClass = iconType === "fab" ? "fab" : "fas";
+        
+        return (
+          <div className="icon-wrapper" title={ALL_ICONS[entry.faicon].text}>
+            <i className={`${iconClass} fa-${entry.faicon}`} aria-hidden="true"></i>
+          </div>
+        );
+      } else {
+        // Fallback for icons that don't exist in ALL_ICONS
+        return (
+          <div className="icon-wrapper" title="Icon">
+            <i className={`fas fa-${entry.faicon}`} aria-hidden="true"></i>
+          </div>
+        );
+      }
     }
     return null;
   };
@@ -177,7 +200,9 @@ export default function Entry({
     return (
       <div className="timestamp-and-link-icons">
         <span className="timestamp">
-          <time dateTime={entry.date}>{humanizeDate(entry.date)}</time>
+          <Link href={`/single/${entry.readableId}`}>
+            <time dateTime={entry.date}>{humanizeDate(entry.date)}</time>
+          </Link>
         </span>
         <ul className="entry-link-icons">
           {maybeRenderStar()}
@@ -323,7 +348,7 @@ export default function Entry({
                 <span dangerouslySetInnerHTML={{ __html: link.linkText }} />
               </a>
               {link.extraText && (
-                <span dangerouslySetInnerHTML={{ __html: link.extraText }} />
+                <span dangerouslySetInnerHTML={{ __html: ` ${link.extraText}` }} />
               )}
               {renderArchiveLink(link)}
             </li>
@@ -345,7 +370,7 @@ export default function Entry({
       <div className="tags">
         <div className="tag-list theme">
           <span className="sr-only">Theme tags: </span>
-          <i className="fas fa-hashtag" aria-hidden={true}></i>
+          <i className="fas fa-hashtag" aria-hidden="true"></i>
           {theme}
         </div>
         <div className="tag-group-right">

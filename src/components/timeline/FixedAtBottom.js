@@ -16,6 +16,10 @@ import SettingsPanel from "./SettingsPanel";
 export default function FixedAtBottom({
   headerInView,
   scrollToTop,
+  searchMode,
+  setSearchMode,
+  sortOrder,
+  setSortOrder,
 }) {
   const isBrowserRendering = useIsBrowserRendering();
   const prefersReducedMotion = useMemo(() => {
@@ -96,6 +100,10 @@ export default function FixedAtBottom({
         {isSettingsPanelShown && (
           <SettingsPanel
             setIsSettingsPanelShown={setIsSettingsPanelShown}
+            searchMode={searchMode}
+            setSearchMode={setSearchMode}
+            sortOrder={sortOrder}
+            setSortOrder={setSortOrder}
             isAnimationPaused={isAnimationPaused}
             toggleFlamesAnimation={toggleFlamesAnimation}
           />
@@ -108,4 +116,15 @@ export default function FixedAtBottom({
 FixedAtBottom.propTypes = {
   headerInView: PropTypes.bool.isRequired,
   scrollToTop: PropTypes.func.isRequired,
+  searchMode: PropTypes.string,
+  setSearchMode: PropTypes.func,
+  sortOrder: PropTypes.string,
+  setSortOrder: PropTypes.func,
+};
+
+FixedAtBottom.defaultProps = {
+  searchMode: "hybrid",
+  setSearchMode: () => {},
+  sortOrder: "Descending",
+  setSortOrder: () => {},
 };

@@ -1,16 +1,16 @@
 import PropTypes from "prop-types";
 
-const FILTERS = {
+export const FILTERS = {
   // Event types / themes
   theme: {
+    mcp: "MCP Server",
+    mcpClient: "MCP Client",
     update: "Protocol Update",
     milestone: "Protocol Milestone",
     adoption: "Adoption",
     warning: "Warning",
     goodToKnow: "Good to Know",
     industryNews: "Industry News",
-    mcp: "MCP Server",
-    mcpClient: "MCP Client",
   },
   
   // Tool categories
@@ -54,7 +54,7 @@ export const EMPTY_FILTERS = {
   sort: "Descending",
 };
 
-export const FILTER_CATEGORIES = ["theme", "category", "server"];
+export const FILTER_CATEGORIES = Object.keys(FILTERS);
 
 const ThemePropType = PropTypes.oneOf(Object.keys(FILTERS.theme));
 const CategoryPropType = PropTypes.oneOf(Object.keys(FILTERS.category));

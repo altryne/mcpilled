@@ -3,6 +3,7 @@ import {
   addImageAttribution,
   addEntryAttribution,
   uploadEntry,
+  deleteEntry,
 } from "../db/admin-supabase";
 import { signIn as supabaseSignIn, signOut as supabaseSignOut, onAuthStateChange } from "./supabase-auth";
 
@@ -37,3 +38,5 @@ export const upload = async (
   await Promise.all(promises);
   return promises[0];
 };
+
+export { deleteEntry };

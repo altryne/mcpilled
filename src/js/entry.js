@@ -12,11 +12,6 @@ export const EMPTY_ENTRY = {
   shortTitle: "",
   readableId: "",
   image: { src: "", alt: "", caption: "", isLogo: false },
-  scamAmountDetails: {
-    total: 0,
-    hasScamAmount: false,
-    preRecoveryAmount: 0,
-  },
   collection: [],
 };
 
@@ -55,11 +50,6 @@ export const EntryPropType = PropTypes.shape({
   }),
   body: PropTypes.string.isRequired,
   links: PropTypes.arrayOf(LinkFieldPropType).isRequired,
-  scamAmountDetails: PropTypes.shape({
-    total: PropTypes.number.isRequired,
-    hasScamAmount: PropTypes.bool.isRequired,
-    preRecoveryAmount: PropTypes.number.isRequired,
-  }),
 });
 
 const isEntryEmpty = (entry) =>
@@ -73,11 +63,10 @@ export const trimEmptyFields = (entry, imageAttribution, entryAttribution) => {
   const trimmed = {};
   if (!isEntryEmpty(entry)) {
     const newEntry = JSON.parse(JSON.stringify(entry));
-
-    if (!entry.faicon) {
+    if (!newEntry.faicon) {
       delete newEntry.faicon;
     }
-    if (!entry.icon) {
+    if (!newEntry.icon) {
       delete newEntry.icon;
     }
     if (!entry.image.src) {
@@ -85,34 +74,7 @@ export const trimEmptyFields = (entry, imageAttribution, entryAttribution) => {
     } else if (!entry.image.caption) {
       delete newEntry.image.caption;
     }
-    if (
-      "lowerBound" in entry.scamAmountDetails &&
-      entry.scamAmountDetails.lowerBound === 0 &&
-      (!hasValue(entry.scamAmountDetails, "upperBound") ||
-        entry.scamAmountDetails.upperBound === 0)
-    ) {
-      delete newEntry.scamAmountDetails.lowerBound;
-    }
-    if (
-      "upperBound" in entry.scamAmountDetails &&
-      entry.scamAmountDetails.upperBound === 0 &&
-      (!hasValue(entry.scamAmountDetails, "lowerBound") ||
-        entry.scamAmountDetails.lowerBound === 0)
-    ) {
-      delete newEntry.scamAmountDetails.upperBound;
-    }
-    if (
-      "recovered" in entry.scamAmountDetails &&
-      entry.scamAmountDetails.recovered === 0
-    ) {
-      delete newEntry.scamAmountDetails.recovered;
-    }
-    if (
-      "textOverride" in entry.scamAmountDetails &&
-      entry.scamAmountDetails.textOverride === ""
-    ) {
-      delete newEntry.scamAmountDetails.textOverride;
-    }
+    
     if (!entry.collection.length) {
       delete newEntry.collection;
     } else {
@@ -161,14 +123,6 @@ export const isValidEntry = (entry, imageAttribution, entryAttribution) => {
       return false;
     }
     if (!entry.faicon && !entry.icon) {
-      return false;
-    }
-    if (
-      (hasValue(entry.scamAmountDetails, "lowerBound") &&
-        !hasValue(entry.scamAmountDetails, "upperBound")) ||
-      (!hasValue(entry.scamAmountDetails, "lowerBound") &&
-        hasValue(entry.scamAmountDetails, "upperBound"))
-    ) {
       return false;
     }
   }

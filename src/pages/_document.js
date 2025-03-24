@@ -27,6 +27,13 @@ const Document = () => {
           title="Subscribe to MCPilled updates"
           href="https://mcpilled.com/feed.xml"
         />
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+          integrity="sha512-CtYgkVQ7++KLKQXtCKY0Bs/4zixfMWPCq3lCBRWYoFY8WpBChn8UZMlnG+zUP7RQLQ+0FLBtuQIGJAuFig1jA=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"
+        />
       </Head>
       <body>
         <Main />
