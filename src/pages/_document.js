@@ -5,18 +5,18 @@ const Document = () => {
     <Html>
       <Head>
         <link rel="shortcut icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" href="/android-chrome-192x192.png" />
+        <link rel="apple-touch-icon" href="/apple-icon.png" />
         <link
           rel="icon"
           type="image/png"
           sizes="32x32"
-          href="/favicon-32x32.png"
+          href="/icon0.png"
         />
         <link
           rel="icon"
           type="image/png"
           sizes="16x16"
-          href="/favicon-16x16.png"
+          href="/icon0.png"
         />
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5948a4" />
         <link rel="shortcut icon" href="/favicon.ico" />
