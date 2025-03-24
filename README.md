@@ -9,3 +9,5 @@ Suggest an [addition](https://github.com/altryne/mcpilled/issues/new?assignees=&
 This project was cloned from [Web3 is Going Great](https://github.com/molly/web3-is-going-great), huge thanks to Molly for open sourcing this project. 
 
 You can follow me on [Twitter](https://twitter.com/altryne) and the project bot at [Twitter](https://twitter.com/mcpilled).
+
+🙌💊
