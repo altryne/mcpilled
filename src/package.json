@@ -5,7 +5,10 @@
     "dev": "NODE_OPTIONS='--trace-warnings' next dev",
     "build": "next build",
     "start": "NODE_OPTIONS='--trace-warnings' next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "preview": "opennextjs-cloudflare && wrangler dev",
+    "deploy": "opennextjs-cloudflare && wrangler deploy",
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.5.2",
@@ -38,9 +41,11 @@
   },
   "devDependencies": {
     "@netlify/plugin-nextjs": "^5.10.1",
+    "@opennextjs/cloudflare": "^0.5.12",
     "eslint": "8.57.0",
     "eslint-config-next": "14.1.4",
     "eslint-plugin-react": "^7.34.1",
-    "sass": "^1.72.0"
+    "sass": "^1.72.0",
+    "wrangler": "^4.4.0"
   }
 }
