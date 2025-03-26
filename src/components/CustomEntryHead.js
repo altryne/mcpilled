@@ -49,13 +49,13 @@ export default function CustomEntryHead({
       <meta
         property="og:url"
         key="ogurl"
-        content={`https://web3isgoinggreat.com/single/${entry.readableId}`}
+        content={`https://mcpilled.com/single/${entry.readableId}`}
       />
       <meta property="og:title" key="ogtitle" content={title} />
       <meta
         property="og:site_name"
         key="ogsitename"
-        content="Web3 is Going Just Great"
+        content="MCPilled.com"
       />
       <meta
         property="og:description"

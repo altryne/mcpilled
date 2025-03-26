@@ -1,4 +1,4 @@
-# Contributing to Web3 is Going Just Great
+# Contributing to MCPilled.com
 
 :wave: Thank you for taking time to contribute!
 

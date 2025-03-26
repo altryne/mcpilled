@@ -120,7 +120,7 @@ const Header = forwardRef(function Header(
           {!(windowWidth === "sm" || windowWidth === "xs") && renderImage()}
           <div className="header-content">
             <h1 ref={componentRef} tabIndex={-1}>
-              {renderMainPageLink(<span>MCPilled.com</span>)}
+              {renderMainPageLink(<span data-component-name="Header">Hey Dima and Yossi</span>)}
             </h1>
             <p className="subtitle">
               Take the MCPill and find out what's happening in the world of the Model Context Protocol (MCP) 

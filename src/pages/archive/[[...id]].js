@@ -116,8 +116,8 @@ export default function TweetArchive({ entryId, linkIndex, entry }) {
   return (
     <>
       <CustomHead
-        title="Archived tweet – Web3 is Going Just Great"
-        description="Archived tweet used as a source in Web3 is Going Just Great"
+        title="Archived tweet"
+        description="Archived tweet used as a source in MCPilled.com"
         urlPath={`archive/${entryId}/${linkIndex}`}
       />
       <SimpleHeader>Archived tweet</SimpleHeader>

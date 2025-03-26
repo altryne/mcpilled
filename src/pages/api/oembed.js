@@ -115,9 +115,9 @@ export default async function handler(req, res) {
     }
   } else {
     // Generic embed
-    response.html = `<iframe title="Web3 is Going Just Great" height="${response.height}" width="${response.width}" src="https://www.web3isgoinggreat.com/${parsed.pathname}${parsed.search}" frameborder="0" sandbox=""></iframe>`;
+    response.html = `<iframe title="MCPilled.com" height="${response.height}" width="${response.width}" src="https://www.web3isgoinggreat.com/${parsed.pathname}${parsed.search}" frameborder="0" sandbox=""></iframe>`;
     response.thumbnail_url =
-      "https://primary-cdn.web3isgoinggreat.com/monkey_500.webp";
+      "https://cln.sh/0ZcJDPXv+";
     response.thumbnail_width = 490;
     response.thumbnail_height = 461;
   }

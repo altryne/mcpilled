@@ -7,8 +7,8 @@ export default function Notes202203092() {
   return (
     <>
       <CustomHead
-        title="Notes – Web3 is Going Just Great"
-        description="Further information about a Web3 is Going Just Great entry"
+        title="Notes – MCPilled.com"
+        description="Further information about a MCPilled.com entry"
         urlPath="notes/2022-03-09-2"
       />
       <SimpleHeader>Notes</SimpleHeader>
