@@ -1,7 +1,7 @@
 export const SOCIAL = [
   {
     label: "Twitter",
-    href: "https://twitter.com/mcpilled",
+    href: "https://twitter.com/getMCPilled",
     icon: "fab fa-twitter",
   },
   {

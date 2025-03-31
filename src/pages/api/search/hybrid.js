@@ -1,10 +1,28 @@
 import { supabase } from '../../../db/supabase';
-import OpenAI from 'openai';
 
-// Initialize OpenAI client with server-side API key
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+// Use direct fetch to OpenAI API instead of the SDK
+// This avoids Node.js specific functionality that causes issues in Cloudflare Workers
+async function generateEmbedding(text) {
+  const response = await fetch('https://api.openai.com/v1/embeddings', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
+    },
+    body: JSON.stringify({
+      model: 'text-embedding-3-small',
+      input: text
+    })
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(`OpenAI API error: ${error.error?.message || 'Unknown error'}`);
+  }
+
+  const result = await response.json();
+  return result.data[0].embedding;
+}
 
 /**
  * Search endpoint supporting multiple search modes:
@@ -32,14 +50,19 @@ export default async function handler(req, res) {
     let queryEmbedding = null;
     if (mode === 'vector' || mode === 'hybrid') {
       try {
-        const embeddingResponse = await openai.embeddings.create({
-          model: "text-embedding-3-small",
-          input: query,
-        });
+        console.log('Generating embedding with OpenAI model: text-embedding-3-small');
         
-        queryEmbedding = embeddingResponse.data[0].embedding;
+        // Use direct fetch instead of OpenAI SDK
+        queryEmbedding = await generateEmbedding(query);
+        
+        console.log('Successfully generated embedding');
       } catch (error) {
-        console.error('Error generating embedding:', error);
+        console.error('Error generating embedding:', {
+          message: error.message,
+          name: error.name,
+          stack: error.stack,
+          details: error.details || 'No details provided'
+        });
         // If in vector-only mode and embedding fails, return error
         if (mode === 'vector') {
           return res.status(500).json({ 
@@ -48,6 +71,7 @@ export default async function handler(req, res) {
           });
         }
         // For hybrid mode, we'll continue with text search only
+        console.log('Falling back to text-only search due to embedding generation failure');
       }
     }
     

@@ -59,8 +59,8 @@ export default function Contribute() {
               </ExternalLink>
             </li>
             <li>
-              <ExternalLink href="https://twitter.com/mcpilled">
-                <span>Follow @mcpilled on Twitter</span>
+              <ExternalLink href="https://twitter.com/getMCPilled">
+                <span>Follow @getMCPilled on Twitter</span>
               </ExternalLink>
             </li>
             
@@ -85,7 +85,7 @@ export default function Contribute() {
 
           <h3>Spread the Word</h3>
           <p>
-            Help others discover MCP by sharing MCPilled.com or @mcpilled on Socials with your network. The more people who know about and use MCP, the stronger the ecosystem becomes!
+            Help others discover MCP by sharing MCPilled.com or @getMCPilled on Socials with your network. The more people who know about and use MCP, the stronger the ecosystem becomes!
           </p>
 
           <h3>Contact</h3>

@@ -23,7 +23,7 @@ export default function WhatIsWeb3() {
         <article className="generic-page longform-text">
           <h3>What is this?</h3>
           <p>
-            MCPilled.com is a community-driven site to help you learn about Anthropic's Model Context Protocol (MCP). We've compiled FAQs, a timeline of key events, top resources, and tips on automating posts for our @mcpilled social accounts. Dive in and get MCP‑pilled!
+            MCPilled.com is a community-driven site to help you learn about Anthropic's Model Context Protocol (MCP). We've compiled FAQs, a timeline of key events, top resources, and tips on automating posts for our @getMCPilled social accounts. Dive in and get MCP‑pilled!
           </p>
           <p>
             This website serves as a friendly introduction and hub for all things MCP. Our goal is to welcome you into the MCP community, whether you're a developer or just curious, and help you stay up-to-date with this emerging standard.
@@ -57,7 +57,7 @@ export default function WhatIsWeb3() {
               Discord server
             </ExternalLink>{" "}
             or by following and engaging with our{" "}
-            <ExternalLink href="https://twitter.com/mcpilled">
+            <ExternalLink href="https://twitter.com/getMCPilled">
               Twitter/X account
             </ExternalLink>
             .

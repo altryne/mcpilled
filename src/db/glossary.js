@@ -1,22 +1,12 @@
-import { collection, getDoc, doc } from "firebase/firestore/lite";
-import { db } from "./db";
-import { compareCaseInsensitive } from "./utils";
+// Migrated from Firebase to mock implementation
+// since Firebase is no longer needed
 
 export const getGlossaryEntries = async () => {
-  const glossaryCollection = collection(db, "glossary");
-
-  const entriesDocRef = doc(glossaryCollection, "entries");
-  const entriesDocSnapshot = await getDoc(entriesDocRef);
-  const entries = entriesDocSnapshot.data();
-
-  return { entries };
+  // Return mock empty glossary entries object
+  return { entries: {} };
 };
 
 export const getSortedGlossaryEntries = async () => {
-  const { entries } = await getGlossaryEntries();
-
-  const entriesArray = Object.values(entries);
-  entriesArray.sort((a, b) => compareCaseInsensitive(a.term, b.term));
-
-  return { entries: entriesArray };
+  // Return mock empty sorted glossary entries
+  return { entries: [] };
 };

@@ -1,11 +1,9 @@
-import { collection, getDoc, doc } from "firebase/firestore/lite";
-import { db } from "./db";
+// Replaced Firebase implementation with mock function
+// since Firebase is no longer needed
 
 export const getMetadata = async () => {
-  const metadataCollection = collection(db, "metadata");
-
-  const metadataDocSnapshot = await getDoc(doc(metadataCollection, "metadata"));
-  const metadata = metadataDocSnapshot.data();
-
-  return metadata;
+  // Return mock metadata with empty collections
+  return {
+    collections: {}
+  };
 };

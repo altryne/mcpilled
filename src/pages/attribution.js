@@ -94,7 +94,7 @@ export default function Attribution() {
               </ExternalLink>
             </li>
             <li>
-              <ExternalLink href="https://twitter.com/mcpilled">
+              <ExternalLink href="https://twitter.com/getMCPilled">
                 <span>Twitter</span>
               </ExternalLink>
             </li>

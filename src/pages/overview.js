@@ -100,7 +100,7 @@ export default function OverviewPage() {
             <div className="step">
               <h3>4. Join the Community</h3>
               <p>
-                Connect with other MCP enthusiasts on <ExternalLink href="https://discord.gg/mcpilled"><span>Discord</span></ExternalLink> and <ExternalLink href="https://twitter.com/mcpilled"><span>Twitter</span></ExternalLink> to share your projects and get help.
+                Connect with other MCP enthusiasts on <ExternalLink href="https://discord.gg/mcpilled"><span>Discord</span></ExternalLink> and <ExternalLink href="https://twitter.com/getMCPilled"><span>Twitter</span></ExternalLink> to share your projects and get help.
               </p>
             </div>
           </div>

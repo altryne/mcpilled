@@ -20,20 +20,43 @@ import { useRouter } from "next/router";
 import { supabase } from "../../db/supabase"; // Correct import path
 
 export async function getServerSideProps(context) {
+  console.log(`[DEBUG] getServerSideProps starting for id: ${context.params.id}`);
+  
   const props = { entry: null };
   try {
+    console.log(`[DEBUG] Attempting to get entry for id: ${context.params.id}`);
     props.entry = await getEntry(context.params.id);
+    console.log(`[DEBUG] Successfully got entry: ${JSON.stringify(props.entry)}`);
   } catch (err) {
+    console.error(`[ERROR] Error getting entry: ${err.message}`, err);
     if (err.message === "not-found" || err.message === "invalid-argument") {
       props.error = 404;
     } else {
       props.error = 500;
     }
   }
-  const glossary = await getGlossaryEntries();
-  const metadata = await getMetadata();
-  props.allCollections = metadata.collections || {};
-  props.glossary = glossary; // might be empty array if no table
+
+  try {
+    console.log(`[DEBUG] Getting glossary entries`);
+    const glossary = await getGlossaryEntries();
+    console.log(`[DEBUG] Successfully got glossary entries`);
+    props.glossary = glossary;
+  } catch (err) {
+    console.error(`[ERROR] Error getting glossary: ${err.message}`, err);
+    props.glossary = { entries: {} };
+  }
+
+  try {
+    console.log(`[DEBUG] Getting metadata`);
+    const metadata = await getMetadata();
+    console.log(`[DEBUG] Successfully got metadata`);
+    props.allCollections = metadata.collections || {};
+  } catch (err) {
+    console.error(`[ERROR] Error getting metadata: ${err.message}`, err);
+    props.allCollections = {};
+  }
+
+  console.log(`[DEBUG] getServerSideProps completed for id: ${context.params.id}`);
   return { props };
 }
 
