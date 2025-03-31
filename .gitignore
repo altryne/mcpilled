@@ -3,6 +3,7 @@
 # dependencies
 /node_modules
 /.wrangler
+/src/.wrangler
 /.pnp
 .pnp.js
 
