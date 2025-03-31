@@ -13,7 +13,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.5.2",
     "@popperjs/core": "^2.11.8",
-    "@supabase/supabase-js": "^2.39.6",
+    "@supabase/supabase-js": "^2.49.4",
     "algoliasearch": "^4.23.2",
     "clsx": "^2.1.0",
     "date-fns": "^3.6.0",
