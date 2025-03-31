@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "@netlify/plugin-nextjs": "^5.10.1",
-    "@opennextjs/cloudflare": "^0.5.12",
+    "@opennextjs/cloudflare": "^0.6.5",
     "eslint": "8.57.0",
     "eslint-config-next": "14.1.4",
     "eslint-plugin-react": "^7.34.1",
